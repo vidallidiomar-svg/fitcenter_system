@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Avaliação física</h2>
+
+<form method="POST">
+
+Peso:<br>
+<input name="peso"><br><br>
+
+Gordura corporal:<br>
+<input name="gordura"><br><br>
+
+Massa muscular:<br>
+<input name="massa"><br><br>
+
+Data:<br>
+<input type="date" name="data"><br><br>
+
+<button type="submit">Salvar</button>
+
+</form>
+
+<hr>
+
+<h3>Avaliações</h3>
+
+{% for a in avaliacoes %}
+
+<p>
+Peso: {{a[0]}} |
+Gordura: {{a[1]}} |
+Massa: {{a[2]}} |
+Data: {{a[3]}}
+</p>
+
+{% endfor %}
+
+{% endblock %}

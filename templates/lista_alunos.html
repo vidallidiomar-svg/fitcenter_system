@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Lista de alunos</h2>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<th>ID</th>
+<th>Nome</th>
+<th>Email</th>
+<th>Treino</th>
+<th>Avaliação</th>
+<th>Perfil</th>
+</tr>
+
+{% for aluno in alunos %}
+
+<tr>
+
+<td>{{aluno[0]}}</td>
+<td>{{aluno[1]}}</td>
+<td>{{aluno[2]}}</td>
+
+<td>
+<a href="/treino/{{aluno[0]}}">Treino</a>
+</td>
+
+<td>
+<a href="/avaliacao/{{aluno[0]}}">Avaliação</a>
+</td>
+
+<td>
+<a href="/perfil/{{aluno[0]}}">Perfil</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

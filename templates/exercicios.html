@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Exercícios do treino</h2>
+
+<form method="POST">
+
+Exercício:<br>
+<input name="exercicio"><br><br>
+
+Séries:<br>
+<input name="series"><br><br>
+
+Repetições:<br>
+<input name="repeticoes"><br><br>
+
+Carga:<br>
+<input name="carga"><br><br>
+
+<button type="submit">Adicionar exercício</button>
+
+</form>
+
+<hr>
+
+<table border="1" cellpadding="10">
+
+<tr>
+<th>Exercício</th>
+<th>Séries</th>
+<th>Repetições</th>
+<th>Carga</th>
+</tr>
+
+{% for e in exercicios %}
+
+<tr>
+
+<td>{{e[0]}}</td>
+<td>{{e[1]}}</td>
+<td>{{e[2]}}</td>
+<td>{{e[3]}}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

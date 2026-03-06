@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h1>Dashboard FITCENTER</h1>
+
+<p>Sistema de gestão de academia</p>
+
+<style>
+
+.cards{
+display:flex;
+gap:20px;
+margin-top:30px;
+flex-wrap:wrap;
+}
+
+.card{
+
+background:#f4f4f4;
+padding:25px;
+border-radius:10px;
+width:200px;
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
+
+}
+
+.card h2{
+margin:0;
+font-size:40px;
+}
+
+.card p{
+margin:5px 0 0 0;
+color:#666;
+}
+
+</style>
+
+<div class="cards">
+
+<div class="card">
+
+<h2>{{total_alunos}}</h2>
+<p>Alunos</p>
+
+</div>
+
+<div class="card">
+
+<h2>{{total_treinos}}</h2>
+<p>Treinos</p>
+
+</div>
+
+<div class="card">
+
+<h2>{{total_avaliacoes}}</h2>
+<p>Avaliações físicas</p>
+
+</div>
+
+<div class="card">
+
+<h2>{{total_usuarios}}</h2>
+<p>Usuários</p>
+
+</div>
+
+</div>
+
+{% endblock %}

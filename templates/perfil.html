@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Perfil do aluno</h2>
+
+<p><b>Nome:</b> {{aluno[1]}}</p>
+<p><b>Email:</b> {{aluno[2]}}</p>
+<p><b>Peso atual:</b> {{aluno[3]}}</p>
+
+<hr>
+
+<h3>Atualizar peso</h3>
+
+<form method="POST" action="/peso">
+
+Novo peso:<br>
+<input name="peso">
+
+<br><br>
+
+<button type="submit">Atualizar</button>
+
+</form>
+
+<hr>
+
+<h3>Evolução física</h3>
+
+<canvas id="grafico"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const datas = {{ datas | tojson }};
+const pesos = {{ pesos | tojson }};
+const gorduras = {{ gorduras | tojson }};
+const massas = {{ massas | tojson }};
+
+const ctx = document.getElementById('grafico');
+
+new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+        labels: datas,
+
+        datasets: [
+
+            {
+                label: 'Peso',
+                data: pesos,
+                borderWidth: 2
+            },
+
+            {
+                label: 'Gordura',
+                data: gorduras,
+                borderWidth: 2
+            },
+
+            {
+                label: 'Massa Muscular',
+                data: massas,
+                borderWidth: 2
+            }
+
+        ]
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
