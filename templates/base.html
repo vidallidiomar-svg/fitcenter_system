@@ -7,6 +7,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link rel="manifest" href="/static/manifest.json">
+
 <style>
 
 body{
@@ -37,18 +39,6 @@ color:#00ff9c;
 padding:20px;
 }
 
-@media(max-width:600px){
-
-nav{
-flex-direction:column;
-}
-
-nav a{
-margin-bottom:10px;
-}
-
-}
-
 </style>
 
 </head>
@@ -61,7 +51,7 @@ margin-bottom:10px;
 <a href="/cadastro">Cadastrar aluno</a>
 <a href="/alunos">Alunos</a>
 <a href="/ranking">Ranking</a>
-<a href="/ranking_semanal">Ranking Semanal</a>
+<a href="/ranking_semanal">Ranking semanal</a>
 
 </nav>
 
@@ -73,6 +63,14 @@ margin-bottom:10px;
 {% endblock %}
 
 </div>
+
+<script>
+
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('/static/service-worker.js');
+}
+
+</script>
 
 </body>
 
