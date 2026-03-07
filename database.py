@@ -1,78 +1,73 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>FITCENTER</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#f4f4f4;
-}
-
-nav{
-background:#111;
-padding:15px;
-display:flex;
-flex-wrap:wrap;
-}
-
-nav a{
-color:white;
-margin-right:15px;
-text-decoration:none;
-font-weight:bold;
-}
-
-nav a:hover{
-color:#00ff9c;
-}
-
-.conteudo{
-padding:20px;
-}
-
-@media(max-width:600px){
-
-nav{
-flex-direction:column;
-}
-
-nav a{
-margin-bottom:10px;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<nav>
-
-<a href="/">Dashboard</a>
-<a href="/cadastro">Cadastrar aluno</a>
-<a href="/alunos">Alunos</a>
-<a href="/ranking">Ranking</a>
-
-</nav>
+import sqlite3
 
 
-<div class="conteudo">
+def conectar():
 
-{% block conteudo %}
+    conn = sqlite3.connect("fitcenter.db")
+    conn.row_factory = sqlite3.Row
 
-{% endblock %}
+    return conn
 
-</div>
 
-</body>
+def criar_banco():
 
-</html>
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        email TEXT UNIQUE,
+        senha TEXT,
+        tipo TEXT,
+        aluno_id INTEGER
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS alunos(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        email TEXT,
+        genero TEXT,
+        xp INTEGER DEFAULT 0,
+        streak INTEGER DEFAULT 0
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS exercicios(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        exercicio TEXT,
+        series INTEGER,
+        repeticoes INTEGER,
+        peso TEXT,
+        concluido INTEGER DEFAULT 0
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS historico_treino(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        exercicio TEXT,
+        peso INTEGER,
+        data TEXT
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS avaliacoes(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        peso REAL,
+        gordura REAL,
+        massa REAL,
+        data TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
