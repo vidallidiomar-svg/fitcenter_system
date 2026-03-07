@@ -53,3 +53,17 @@ Senha:
 ## Objetivo do projeto
 
 Projeto desenvolvido como parte de estudo em desenvolvimento web com Python e Flask e utilizado como projeto de portfólio.
+
+## Screenshots do sistema
+
+### Login
+![Login](screenshots/login.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### Lista de alunos
+![Alunos](screenshots/alunos.png)
+
+### Treino
+![Treino](screenshots/treino.png)
