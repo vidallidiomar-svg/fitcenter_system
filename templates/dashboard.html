@@ -2,79 +2,23 @@
 
 {% block conteudo %}
 
-<h2>Dashboard da Academia</h2>
-
-<div style="display:flex;gap:30px;flex-wrap:wrap">
-
-<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
-
-<h3>👥 Alunos</h3>
-<p style="font-size:30px">{{total_alunos}}</p>
-
-</div>
-
-
-<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
-
-<h3>🏆 XP Total</h3>
-<p style="font-size:30px">{{xp_total}}</p>
-
-</div>
-
-
-<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
-
-<h3>🏋️ Treinos</h3>
-<p style="font-size:30px">{{total_treinos}}</p>
-
-</div>
-
-</div>
+<h1>Dashboard FITCENTER</h1>
 
 <hr>
 
-<h3>Treinos registrados por dia</h3>
+<h3>Total de alunos</h3>
+<p>{{ total_alunos }}</p>
 
-<canvas id="grafico"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-const datas = {{ datas | tojson }};
-const treinos = {{ treinos | tojson }};
-
-const ctx = document.getElementById('grafico');
-
-new Chart(ctx, {
-
-type:'bar',
-
-data:{
-labels:datas,
-
-datasets:[
-{
-label:'Treinos',
-data:treinos,
-backgroundColor:'#00aa55'
-}
-]
-
-}
-
-});
-
-</script>
+<h3>XP da academia</h3>
+<p>{{ total_xp }}</p>
 
 <hr>
 
-<h3>🏆 Top alunos da academia</h3>
+<h2>Ranking</h2>
 
 <table border="1" cellpadding="10">
 
 <tr>
-<th>Posição</th>
 <th>Aluno</th>
 <th>XP</th>
 </tr>
@@ -82,25 +26,8 @@ backgroundColor:'#00aa55'
 {% for aluno in ranking %}
 
 <tr>
-
-<td>
-
-{% if loop.index == 1 %}
-🥇
-{% elif loop.index == 2 %}
-🥈
-{% elif loop.index == 3 %}
-🥉
-{% else %}
-{{loop.index}}
-{% endif %}
-
-</td>
-
-<td>{{aluno["nome"]}}</td>
-
-<td>{{aluno["xp"]}}</td>
-
+<td>{{ aluno["nome"] }}</td>
+<td>{{ aluno["xp"] }}</td>
 </tr>
 
 {% endfor %}

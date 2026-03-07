@@ -7,8 +7,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="manifest" href="/static/manifest.json">
-
 <style>
 
 body{
@@ -20,13 +18,11 @@ background:#f4f4f4;
 nav{
 background:#111;
 padding:15px;
-display:flex;
-flex-wrap:wrap;
 }
 
 nav a{
 color:white;
-margin-right:15px;
+margin-right:20px;
 text-decoration:none;
 font-weight:bold;
 }
@@ -35,20 +31,45 @@ nav a:hover{
 color:#00ff9c;
 }
 
-.conteudo{
-padding:20px;
+.container{
+padding:30px;
 }
 
-@media(max-width:600px){
-
-nav{
-flex-direction:column;
+table{
+border-collapse:collapse;
+background:white;
 }
 
-nav a{
+th{
+background:#111;
+color:white;
+}
+
+th,td{
+padding:10px 15px;
+border:1px solid #ccc;
+}
+
+button{
+padding:10px 20px;
+background:#111;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+button:hover{
+background:#00ff9c;
+color:black;
+}
+
+input,select{
+padding:6px;
 margin-bottom:10px;
 }
 
+img{
+border-radius:8px;
 }
 
 </style>
@@ -60,27 +81,24 @@ margin-bottom:10px;
 <nav>
 
 <a href="/">Dashboard</a>
+
 <a href="/cadastro">Cadastrar aluno</a>
+
 <a href="/alunos">Alunos</a>
+
 <a href="/ranking">Ranking</a>
+
+<a href="/login_aluno">Portal do aluno</a>
 
 </nav>
 
-<div class="conteudo">
+<div class="container">
 
 {% block conteudo %}
 
 {% endblock %}
 
 </div>
-
-<script>
-
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register('/static/service-worker.js');
-}
-
-</script>
 
 </body>
 

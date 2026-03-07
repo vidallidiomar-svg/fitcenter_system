@@ -4,30 +4,37 @@
 
 <h2>Cadastrar aluno</h2>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 
 Nome:<br>
-<input name="nome">
+<input type="text" name="nome" required><br>
 
-<br><br>
+Apelido:<br>
+<input type="text" name="apelido"><br>
 
 Email:<br>
-<input name="email">
+<input type="email" name="email" required><br>
 
-<br><br>
+Senha:<br>
+<input type="password" name="senha" required><br>
 
-Gênero:<br>
-
+Genero:<br>
 <select name="genero">
 
-<option value="M">Masculino</option>
-<option value="F">Feminino</option>
+<option value="Masculino">Masculino</option>
+<option value="Feminino">Feminino</option>
+<option value="Outro">Outro</option>
 
 </select>
 
 <br><br>
 
-<button type="submit">Cadastrar</button>
+Foto:<br>
+<input type="file" name="foto">
+
+<br><br>
+
+<button type="submit">Cadastrar aluno</button>
 
 </form>
 

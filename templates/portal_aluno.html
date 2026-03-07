@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Portal do aluno</h2>
+
+{% if aluno.foto %}
+<img src="/static/fotos/{{ aluno.foto }}" width="120">
+{% endif %}
+
+<h3>{{ aluno.apelido }}</h3>
+
+<p>Email: {{ aluno.email }}</p>
+
+<hr>
+
+<h3>XP</h3>
+
+<p>{{ aluno.xp }}</p>
+
+<div style="background:#ccc;width:300px;height:25px">
+
+<div style="background:#00ff9c;height:25px;width:{{ progresso }}%"></div>
+
+</div>
+
+<p>Nível: {{ nivel }}</p>
+
+<hr>
+
+<h3>🔥 Streak</h3>
+
+<p>{{ streak }} dias seguidos treinando</p>
+
+<hr>
+
+<h3>🏆 Conquistas</h3>
+
+<ul>
+
+{% for conquista in conquistas %}
+<li>{{ conquista }}</li>
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>📊 Evolução de peso</h3>
+
+<canvas id="graficoPeso" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const datas = {{ datas_grafico|tojson }};
+const pesos = {{ pesos_grafico|tojson }};
+
+const ctx = document.getElementById("graficoPeso");
+
+new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: datas,
+        datasets: [{
+            label: "Peso levantado",
+            data: pesos,
+            borderWidth: 3
+        }]
+    }
+});
+
+</script>
+
+<hr>
+
+<a href="/treino/{{ aluno.id }}">Meu treino</a>
+
+<br><br>
+
+<a href="/ranking">Ranking da academia</a>
+
+{% endblock %}

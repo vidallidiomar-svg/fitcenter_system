@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Portal do aluno</h2>
+
+<form method="POST">
+
+Email:<br>
+<input type="email" name="email" required><br><br>
+
+Senha:<br>
+<input type="password" name="senha" required><br><br>
+
+<button type="submit">Entrar</button>
+
+</form>
+
+{% endblock %}

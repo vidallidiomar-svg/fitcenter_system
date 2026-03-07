@@ -2,27 +2,45 @@
 
 {% block conteudo %}
 
-<h2>Lista de alunos</h2>
+<h2>Alunos cadastrados</h2>
 
-<table border="1" cellpadding="10">
+<table>
 
 <tr>
+
 <th>ID</th>
+<th>Foto</th>
 <th>Nome</th>
 <th>Email</th>
 <th>Avaliação</th>
+<th>Treino</th>
+
 </tr>
 
 {% for aluno in alunos %}
 
 <tr>
 
-<td>{{aluno[0]}}</td>
-<td>{{aluno[1]}}</td>
-<td>{{aluno[2]}}</td>
+<td>{{aluno.id}}</td>
 
 <td>
-<a href="/avaliacao/{{aluno[0]}}">Avaliação física</a>
+
+{% if aluno.foto %}
+<img src="/static/fotos/{{aluno.foto}}" width="50">
+{% endif %}
+
+</td>
+
+<td>{{aluno.nome}}</td>
+
+<td>{{aluno.email}}</td>
+
+<td>
+<a href="/avaliacao/{{aluno.id}}">Avaliação física</a>
+</td>
+
+<td>
+<a href="/treino/{{aluno.id}}">Treino</a>
 </td>
 
 </tr>
