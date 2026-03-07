@@ -6,32 +6,71 @@
 
 <div style="display:flex;gap:40px;flex-wrap:wrap">
 
-<div style="background:#eee;padding:20px;border-radius:10px">
+<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
 
-<h3>👥 Total de alunos</h3>
+<h3>👥 Alunos</h3>
 
 <p style="font-size:30px">{{total_alunos}}</p>
 
 </div>
 
 
-<div style="background:#eee;padding:20px;border-radius:10px">
+<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
 
-<h3>🏆 XP da academia</h3>
+<h3>🏆 XP Total</h3>
 
 <p style="font-size:30px">{{xp_total}}</p>
 
 </div>
 
 
-<div style="background:#eee;padding:20px;border-radius:10px">
+<div style="background:#eee;padding:20px;border-radius:10px;width:200px">
 
-<h3>🏋️ Treinos registrados</h3>
+<h3>🏋️ Treinos</h3>
 
 <p style="font-size:30px">{{total_treinos}}</p>
 
 </div>
 
 </div>
+
+<hr>
+
+<h3>Treinos por dia</h3>
+
+<canvas id="grafico"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const datas = {{ datas | tojson }};
+const treinos = {{ treinos | tojson }};
+
+const ctx = document.getElementById('grafico');
+
+new Chart(ctx, {
+
+type:'bar',
+
+data:{
+
+labels:datas,
+
+datasets:[
+
+{
+label:'Treinos registrados',
+data:treinos,
+backgroundColor:'#00aa55'
+}
+
+]
+
+}
+
+});
+
+</script>
 
 {% endblock %}

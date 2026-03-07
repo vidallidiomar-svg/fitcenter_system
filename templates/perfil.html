@@ -4,42 +4,44 @@
 
 <h2>Perfil do aluno</h2>
 
-<p><b>Nome:</b> {{aluno[0]}}</p>
-<p><b>Email:</b> {{aluno[1]}}</p>
+<p><b>Nome:</b> {{aluno["nome"]}}</p>
+<p><b>Email:</b> {{aluno["email"]}}</p>
 
 <hr>
 
 <h3>Progressão</h3>
 
 <p><b>Nível:</b> {{nivel}}</p>
-<p><b>XP:</b> {{aluno[3]}}</p>
-<p><b>🔥 Streak:</b> {{aluno[4]}} dias</p>
+
+<p><b>XP:</b> {{aluno["xp"]}}</p>
+
+<p><b>🔥 Streak:</b> {{aluno["streak"]}} dias</p>
 
 <hr>
 
-<h3>🏆 Conquistas</h3>
+<h3>Registrar treino</h3>
 
-<ul>
+<form method="POST" action="/registrar_treino/{{aluno['id']}}">
 
-{% for c in conquistas %}
+<label>Exercício</label><br>
+<input type="text" name="exercicio" required>
 
-<li>{{c}}</li>
+<br><br>
 
-{% endfor %}
+<label>Peso (kg)</label><br>
+<input type="number" name="peso" required>
 
-</ul>
+<br><br>
+
+<button type="submit">Registrar treino</button>
+
+</form>
 
 <hr>
 
 <h3>Evolução física</h3>
 
 <canvas id="grafico"></canvas>
-
-<hr>
-
-<h3>Evolução de força</h3>
-
-<canvas id="grafico_forca"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -65,19 +67,22 @@ datasets:[
 {
 label:'Peso',
 data:pesos,
-borderColor:'blue'
+borderColor:'blue',
+fill:false
 },
 
 {
 label:'Gordura',
 data:gorduras,
-borderColor:'red'
+borderColor:'red',
+fill:false
 },
 
 {
 label:'Massa muscular',
 data:massas,
-borderColor:'green'
+borderColor:'green',
+fill:false
 }
 
 ]
@@ -87,5 +92,33 @@ borderColor:'green'
 });
 
 </script>
+
+<hr>
+
+<h3>Histórico de treinos</h3>
+
+<table border="1" cellpadding="10">
+
+<tr>
+
+<th>Exercício</th>
+<th>Peso</th>
+<th>Data</th>
+
+</tr>
+
+{% for treino in historico %}
+
+<tr>
+
+<td>{{treino["exercicio"]}}</td>
+<td>{{treino["peso"]}}</td>
+<td>{{treino["data"]}}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
 
 {% endblock %}
