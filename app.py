@@ -1,98 +1,37 @@
-from flask import Blueprint, render_template, request, redirect
-from database.database import conectar
-import pandas as pd
+from flask import Flask
 
-treinador_bp = Blueprint("treinador", __name__)
+# banco
+from database.database import criar_banco
 
-
-# ===============================
-# PAINEL DO TREINADOR
-# ===============================
-
-@treinador_bp.route("/treinador")
-def painel_treinador():
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM alunos")
-
-    alunos = cursor.fetchall()
-
-    conn.close()
-
-    return render_template(
-        "treinador.html",
-        alunos=alunos
-    )
+# rotas
+from routes.dashboard_routes import dashboard_bp
+from routes.aluno_routes import aluno_bp
+from routes.aluno_portal_routes import aluno_portal_bp
+from routes.auth_routes import auth_bp
+from routes.treinador_routes import treinador_bp
+from routes.treino_routes import treino_bp
+from routes.nutri_routes import nutri_bp
 
 
-# ===============================
-# CRIAR TREINO
-# ===============================
+app = Flask(__name__)
 
-@treinador_bp.route("/criar_treino", methods=["POST"])
-def criar_treino():
-
-    aluno_id = request.form["aluno_id"]
-    nome = request.form["nome"]
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-
-    INSERT INTO treinos (aluno_id,nome)
-
-    VALUES (?,?)
-
-    """,(aluno_id,nome))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/treinador")
+app.secret_key = "fitcenter_secret"
 
 
-# ===============================
-# IMPORTAR TREINO EXCEL
-# ===============================
+# cria banco automaticamente
+criar_banco()
 
-@treinador_bp.route("/importar_treino_excel", methods=["POST"])
-def importar_treino_excel():
 
-    arquivo = request.files["arquivo"]
+# registrar rotas
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(aluno_bp)
+app.register_blueprint(aluno_portal_bp)
+app.register_blueprint(auth_bp)
+app.register_blueprint(treinador_bp)
+app.register_blueprint(treino_bp)
+app.register_blueprint(nutri_bp)
 
-    df = pd.read_excel(arquivo)
 
-    conn = conectar()
-    cursor = conn.cursor()
-
-    treino_id = request.form["treino_id"]
-
-    for _, linha in df.iterrows():
-
-        cursor.execute("""
-
-        INSERT INTO treino_exercicios
-        (treino_id,ordem,series,repeticoes,peso,intervalo,metodo,movimento)
-
-        VALUES (?,?,?,?,?,?,?,?)
-
-        """, (
-
-        treino_id,
-        linha["ordem"],
-        linha["series"],
-        linha["repeticoes"],
-        linha["peso"],
-        linha["intervalo"],
-        linha["metodo"],
-        linha["movimento"]
-
-        ))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/treinador")
+# iniciar sistema
+if __name__ == "__main__":
+    app.run(debug=True)
