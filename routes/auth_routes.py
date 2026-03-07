@@ -1,14 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, session
-import sqlite3
+
+from database.database import conectar
 
 auth_bp = Blueprint("auth", __name__)
-
-
-def conectar():
-
-    conn = sqlite3.connect("fitcenter.db")
-    conn.row_factory = sqlite3.Row
-    return conn
 
 
 @auth_bp.route("/login", methods=["GET","POST"])
@@ -23,8 +17,10 @@ def login():
         cursor = conn.cursor()
 
         cursor.execute("""
+
         SELECT * FROM usuarios
-        WHERE email=? AND senha=?
+        WHERE email = ? AND senha = ?
+
         """,(email,senha))
 
         usuario = cursor.fetchone()
@@ -33,17 +29,25 @@ def login():
 
         if usuario:
 
-            session["usuario_id"] = usuario["id"]
+            session["usuario"] = usuario["id"]
             session["tipo"] = usuario["tipo"]
 
-            return redirect("/")
+            if usuario["tipo"] == "admin":
+
+                return redirect("/")
+
+            if usuario["tipo"] == "treinador":
+
+                return redirect("/treinador")
+
+            if usuario["tipo"] == "nutricionista":
+
+                return redirect("/nutri")
+
+            if usuario["tipo"] == "aluno":
+
+                return redirect("/portal")
+
+        return "Login inválido"
 
     return render_template("login.html")
-
-
-@auth_bp.route("/logout")
-def logout():
-
-    session.clear()
-
-    return redirect("/login")

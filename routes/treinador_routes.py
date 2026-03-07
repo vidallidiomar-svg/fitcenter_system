@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect
 from database.database import conectar
-import pandas as pd
 
 treinador_bp = Blueprint("treinador", __name__)
 
@@ -16,7 +15,6 @@ def painel_treinador():
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM alunos")
-
     alunos = cursor.fetchall()
 
     conn.close()
@@ -41,11 +39,8 @@ def criar_treino():
     cursor = conn.cursor()
 
     cursor.execute("""
-
     INSERT INTO treinos (aluno_id,nome)
-
     VALUES (?,?)
-
     """,(aluno_id,nome))
 
     conn.commit()
@@ -55,42 +50,35 @@ def criar_treino():
 
 
 # ===============================
-# IMPORTAR TREINO EXCEL
+# ADICIONAR EXERCÍCIO AO TREINO
 # ===============================
 
-@treinador_bp.route("/importar_treino_excel", methods=["POST"])
-def importar_treino_excel():
+@treinador_bp.route("/adicionar_exercicio", methods=["POST"])
+def adicionar_exercicio():
 
-    arquivo = request.files["arquivo"]
+    treino_id = request.form["treino_id"]
+    ordem = request.form["ordem"]
+    exercicio = request.form["exercicio"]
 
-    df = pd.read_excel(arquivo)
+    series = request.form["series"]
+    repeticoes = request.form["repeticoes"]
+    peso = request.form["peso"]
+    intervalo = request.form["intervalo"]
+
+    metodo = request.form["metodo"]
+    movimento = request.form["movimento"]
 
     conn = conectar()
     cursor = conn.cursor()
 
-    treino_id = request.form["treino_id"]
+    cursor.execute("""
 
-    for _, linha in df.iterrows():
+    INSERT INTO treino_exercicios
+    (treino_id,ordem,exercicio_id,series,repeticoes,peso,intervalo,metodo,movimento)
 
-        cursor.execute("""
+    VALUES (?,?,?,?,?,?,?,?,?)
 
-        INSERT INTO treino_exercicios
-        (treino_id,ordem,series,repeticoes,peso,intervalo,metodo,movimento)
-
-        VALUES (?,?,?,?,?,?,?,?)
-
-        """, (
-
-        treino_id,
-        linha["ordem"],
-        linha["series"],
-        linha["repeticoes"],
-        linha["peso"],
-        linha["intervalo"],
-        linha["metodo"],
-        linha["movimento"]
-
-        ))
+    """,(treino_id,ordem,exercicio,series,repeticoes,peso,intervalo,metodo,movimento))
 
     conn.commit()
     conn.close()

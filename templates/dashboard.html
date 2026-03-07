@@ -1,36 +1,97 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block content %}
 
-<h1>Dashboard FITCENTER</h1>
+<h2 class="mb-4">Dashboard FITCENTER</h2>
 
-<hr>
+<div class="row">
 
-<h3>Total de alunos</h3>
-<p>{{ total_alunos }}</p>
+<div class="col-md-4">
 
-<h3>XP da academia</h3>
-<p>{{ total_xp }}</p>
+<div class="card p-4">
 
-<hr>
+<h5>Total de alunos</h5>
 
-<h2>Ranking</h2>
+<div class="metric">
+{{ total }}
+</div>
 
-<table border="1" cellpadding="10">
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-4">
+
+<h5>XP da academia</h5>
+
+<div class="metric">
+{{ xp_total }}
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-4">
+
+<h5>Treinos realizados</h5>
+
+<div class="metric">
+{{ treinos }}
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<hr class="my-5">
+
+<h4>Ranking da academia</h4>
+
+<table class="table table-striped">
+
+<thead>
 
 <tr>
+<th>Posição</th>
 <th>Aluno</th>
 <th>XP</th>
 </tr>
 
+</thead>
+
+<tbody>
+
 {% for aluno in ranking %}
 
 <tr>
+
+<td>
+
+{% if loop.index == 1 %} 🥇
+{% elif loop.index == 2 %} 🥈
+{% elif loop.index == 3 %} 🥉
+{% else %}
+{{ loop.index }}
+{% endif %}
+
+</td>
+
 <td>{{ aluno["nome"] }}</td>
+
 <td>{{ aluno["xp"] }}</td>
+
 </tr>
 
 {% endfor %}
+
+</tbody>
 
 </table>
 

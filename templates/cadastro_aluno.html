@@ -1,40 +1,63 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block content %}
 
-<h2>Cadastrar aluno</h2>
+<h2 class="mb-4">Cadastrar aluno</h2>
 
 <form method="POST" enctype="multipart/form-data">
 
-Nome:<br>
-<input type="text" name="nome" required><br>
+<div class="mb-3">
 
-Apelido:<br>
-<input type="text" name="apelido"><br>
+<label>Nome</label>
+<input class="form-control" name="nome">
 
-Email:<br>
-<input type="email" name="email" required><br>
+</div>
 
-Senha:<br>
-<input type="password" name="senha" required><br>
+<div class="mb-3">
 
-Genero:<br>
-<select name="genero">
+<label>Apelido</label>
+<input class="form-control" name="apelido">
 
-<option value="Masculino">Masculino</option>
-<option value="Feminino">Feminino</option>
-<option value="Outro">Outro</option>
+</div>
+
+<div class="mb-3">
+
+<label>Email</label>
+<input class="form-control" name="email">
+
+</div>
+
+<div class="mb-3">
+
+<label>Senha</label>
+<input type="password" class="form-control" name="senha">
+
+</div>
+
+<div class="mb-3">
+
+<label>Gênero</label>
+
+<select name="genero" class="form-control">
+
+<option>Masculino</option>
+<option>Feminino</option>
+<option>Outro</option>
 
 </select>
 
-<br><br>
+</div>
 
-Foto:<br>
-<input type="file" name="foto">
+<div class="mb-3">
 
-<br><br>
+<label>Foto</label>
+<input type="file" class="form-control" name="foto">
 
-<button type="submit">Cadastrar aluno</button>
+</div>
+
+<button class="btn btn-primary">
+Cadastrar aluno
+</button>
 
 </form>
 

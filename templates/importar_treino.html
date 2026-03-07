@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Importar treino Excel</h2>
+
+<form method="POST" action="/importar_treino_excel" enctype="multipart/form-data">
+
+<label>ID do treino</label>
+
+<input name="treino_id">
+
+<br><br>
+
+<input type="file" name="arquivo">
+
+<br><br>
+
+<button class="btn btn-primary">
+Importar treino
+</button>
+
+</form>
+
+{% endblock %}

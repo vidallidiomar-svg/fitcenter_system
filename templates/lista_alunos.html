@@ -1,51 +1,50 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block content %}
 
-<h2>Alunos cadastrados</h2>
+<h2 class="mb-4">Alunos cadastrados</h2>
 
-<table>
+<table class="table table-striped">
+
+<thead>
 
 <tr>
-
 <th>ID</th>
-<th>Foto</th>
 <th>Nome</th>
 <th>Email</th>
 <th>Avaliação</th>
 <th>Treino</th>
-
 </tr>
+
+</thead>
+
+<tbody>
 
 {% for aluno in alunos %}
 
 <tr>
 
-<td>{{aluno.id}}</td>
+<td>{{ aluno["id"] }}</td>
+<td>{{ aluno["nome"] }}</td>
+<td>{{ aluno["email"] }}</td>
 
 <td>
-
-{% if aluno.foto %}
-<img src="/static/fotos/{{aluno.foto}}" width="50">
-{% endif %}
-
-</td>
-
-<td>{{aluno.nome}}</td>
-
-<td>{{aluno.email}}</td>
-
-<td>
-<a href="/avaliacao/{{aluno.id}}">Avaliação física</a>
+<a href="/avaliacao/{{ aluno['id'] }}" class="btn btn-sm btn-primary">
+Avaliação
+</a>
 </td>
 
 <td>
-<a href="/treino/{{aluno.id}}">Treino</a>
+<a href="/treino/{{ aluno['id'] }}" class="btn btn-sm btn-dark">
+Treino
+</a>
 </td>
 
 </tr>
 
 {% endfor %}
+
+</tbody>
 
 </table>
 

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Painel do treinador</h2>
+
+<hr>
+
+<h4>Criar treino</h4>
+
+<form method="POST" action="/criar_treino">
+
+<label>Aluno</label>
+
+<select name="aluno_id">
+
+{% for aluno in alunos %}
+
+<option value="{{aluno['id']}}">
+{{aluno["nome"]}}
+</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<label>Nome do treino</label>
+
+<input name="nome">
+
+<br><br>
+
+<button class="btn btn-primary">
+Criar treino
+</button>
+
+</form>
+
+<hr>
+
+<h4>Adicionar exercício ao treino</h4>
+
+<form method="POST" action="/adicionar_exercicio">
+
+<label>ID do treino</label>
+<input name="treino_id">
+
+<br><br>
+
+<label>Ordem</label>
+<input name="ordem">
+
+<br><br>
+
+<label>Exercício</label>
+<input name="exercicio">
+
+<br><br>
+
+<label>Séries</label>
+<input name="series">
+
+<br><br>
+
+<label>Repetições</label>
+<input name="repeticoes">
+
+<br><br>
+
+<label>Peso</label>
+<input name="peso">
+
+<br><br>
+
+<label>Intervalo (segundos)</label>
+<input name="intervalo">
+
+<br><br>
+
+<label>Método</label>
+<input name="metodo">
+
+<br><br>
+
+<label>Movimento</label>
+<input name="movimento">
+
+<br><br>
+
+<button class="btn btn-primary">
+Adicionar exercício
+</button>
+
+</form>
+
+{% endblock %}

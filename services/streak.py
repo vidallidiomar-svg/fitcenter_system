@@ -10,10 +10,10 @@ def calcular_streak(datas):
 
     streak = 1
 
-    for i in range(len(datas)-1):
+    for i in range(len(datas) - 1):
 
         d1 = datetime.fromisoformat(datas[i])
-        d2 = datetime.fromisoformat(datas[i+1])
+        d2 = datetime.fromisoformat(datas[i + 1])
 
         diferenca = (d1 - d2).days
 

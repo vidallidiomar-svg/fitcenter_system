@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block content %}
 
-<h2>🏆 Ranking FITCENTER</h2>
+<h2 class="mb-4">Ranking da academia</h2>
 
-<table>
+<table class="table table-striped">
+
+<thead>
 
 <tr>
 <th>Posição</th>
@@ -12,19 +14,23 @@
 <th>XP</th>
 </tr>
 
+</thead>
+
+<tbody>
+
 {% for aluno in ranking %}
 
 <tr>
 
 <td>{{ loop.index }}</td>
-
-<td>{{ aluno.apelido }}</td>
-
-<td>{{ aluno.xp }}</td>
+<td>{{ aluno["nome"] }}</td>
+<td>{{ aluno["xp"] }}</td>
 
 </tr>
 
 {% endfor %}
+
+</tbody>
 
 </table>
 
