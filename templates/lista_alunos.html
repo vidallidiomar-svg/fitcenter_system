@@ -10,9 +10,7 @@
 <th>ID</th>
 <th>Nome</th>
 <th>Email</th>
-<th>Treino</th>
 <th>Avaliação</th>
-<th>Perfil</th>
 </tr>
 
 {% for aluno in alunos %}
@@ -24,15 +22,7 @@
 <td>{{aluno[2]}}</td>
 
 <td>
-<a href="/treino/{{aluno[0]}}">Treino</a>
-</td>
-
-<td>
-<a href="/avaliacao/{{aluno[0]}}">Avaliação</a>
-</td>
-
-<td>
-<a href="/perfil/{{aluno[0]}}">Perfil</a>
+<a href="/avaliacao/{{aluno[0]}}">Avaliação física</a>
 </td>
 
 </tr>

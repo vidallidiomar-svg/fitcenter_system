@@ -1,37 +1,78 @@
-import sqlite3
+<!DOCTYPE html>
+<html>
 
-def criar_banco():
+<head>
 
-    conn = sqlite3.connect("fitcenter.db")
-    cursor = conn.cursor()
+<title>FITCENTER</title>
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS alunos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT,
-        email TEXT
-    )
-    """)
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS treinos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER,
-        descricao TEXT
-    )
-    """)
+<style>
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS avaliacoes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER,
-        peso REAL,
-        gordura REAL,
-        massa_muscular REAL,
-        data TEXT
-    )
-    """)
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
 
-    conn.commit()
-    conn.close()
+nav{
+background:#111;
+padding:15px;
+display:flex;
+flex-wrap:wrap;
+}
 
+nav a{
+color:white;
+margin-right:15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+nav a:hover{
+color:#00ff9c;
+}
+
+.conteudo{
+padding:20px;
+}
+
+@media(max-width:600px){
+
+nav{
+flex-direction:column;
+}
+
+nav a{
+margin-bottom:10px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<a href="/">Dashboard</a>
+<a href="/cadastro">Cadastrar aluno</a>
+<a href="/alunos">Alunos</a>
+<a href="/ranking">Ranking</a>
+
+</nav>
+
+
+<div class="conteudo">
+
+{% block conteudo %}
+
+{% endblock %}
+
+</div>
+
+</body>
+
+</html>

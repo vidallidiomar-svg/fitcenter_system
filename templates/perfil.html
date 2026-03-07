@@ -4,30 +4,42 @@
 
 <h2>Perfil do aluno</h2>
 
-<p><b>Nome:</b> {{aluno[1]}}</p>
-<p><b>Email:</b> {{aluno[2]}}</p>
-<p><b>Peso atual:</b> {{aluno[3]}}</p>
+<p><b>Nome:</b> {{aluno[0]}}</p>
+<p><b>Email:</b> {{aluno[1]}}</p>
 
 <hr>
 
-<h3>Atualizar peso</h3>
+<h3>Progressão</h3>
 
-<form method="POST" action="/peso">
+<p><b>Nível:</b> {{nivel}}</p>
+<p><b>XP:</b> {{aluno[3]}}</p>
+<p><b>🔥 Streak:</b> {{aluno[4]}} dias</p>
 
-Novo peso:<br>
-<input name="peso">
+<hr>
 
-<br><br>
+<h3>🏆 Conquistas</h3>
 
-<button type="submit">Atualizar</button>
+<ul>
 
-</form>
+{% for c in conquistas %}
+
+<li>{{c}}</li>
+
+{% endfor %}
+
+</ul>
 
 <hr>
 
 <h3>Evolução física</h3>
 
 <canvas id="grafico"></canvas>
+
+<hr>
+
+<h3>Evolução de força</h3>
+
+<canvas id="grafico_forca"></canvas>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -42,35 +54,35 @@ const ctx = document.getElementById('grafico');
 
 new Chart(ctx, {
 
-    type: 'line',
+type:'line',
 
-    data: {
+data:{
 
-        labels: datas,
+labels:datas,
 
-        datasets: [
+datasets:[
 
-            {
-                label: 'Peso',
-                data: pesos,
-                borderWidth: 2
-            },
+{
+label:'Peso',
+data:pesos,
+borderColor:'blue'
+},
 
-            {
-                label: 'Gordura',
-                data: gorduras,
-                borderWidth: 2
-            },
+{
+label:'Gordura',
+data:gorduras,
+borderColor:'red'
+},
 
-            {
-                label: 'Massa Muscular',
-                data: massas,
-                borderWidth: 2
-            }
+{
+label:'Massa muscular',
+data:massas,
+borderColor:'green'
+}
 
-        ]
+]
 
-    }
+}
 
 });
 

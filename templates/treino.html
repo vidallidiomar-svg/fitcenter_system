@@ -2,36 +2,123 @@
 
 {% block conteudo %}
 
-<h2>Treinos do aluno</h2>
+<h2>Treino do aluno</h2>
 
-<form method="POST">
+<h3>Adicionar exercício</h3>
 
-Nome do treino (A/B/C):<br>
-<input name="nome">
+<form method="POST" action="/add_exercicio/{{aluno_id}}">
 
-<br><br>
+Exercício:
+<input name="exercicio">
 
-<button type="submit">Criar treino</button>
+Séries:
+<input name="series">
+
+Repetições:
+<input name="repeticoes">
+
+Peso:
+<input name="peso">
+
+<button type="submit">Adicionar</button>
 
 </form>
 
 <hr>
 
-<h3>Treinos cadastrados</h3>
+<h3>Treino</h3>
 
-<ul>
+<table border="1" cellpadding="10">
 
-{% for t in treinos %}
+<tr>
+<th>✔</th>
+<th>Exercício</th>
+<th>Séries</th>
+<th>Reps</th>
+<th>Peso</th>
+<th>Ações</th>
+</tr>
 
-<li>
+{% for e in exercicios %}
 
-Treino {{t[1]}}
-<a href="/exercicios/{{t[0]}}">Abrir treino</a>
+<tr {% if e[6] == 1 %}style="background:#d4ffd4"{% endif %}>
 
-</li>
+<form method="POST" action="/update_exercicio/{{e[0]}}">
+
+<td>
+<a href="/toggle_exercicio/{{e[0]}}/{{aluno_id}}">
+{% if e[6] == 1 %}✔{% else %}⬜{% endif %}
+</a>
+</td>
+
+<td>{{e[2]}}</td>
+
+<td>
+<input name="series" value="{{e[3]}}">
+</td>
+
+<td>
+<input name="repeticoes" value="{{e[4]}}">
+</td>
+
+<td>
+<input name="peso" value="{{e[5]}}">
+</td>
+
+<td>
+
+<input type="hidden" name="aluno_id" value="{{aluno_id}}">
+
+<button type="submit">Salvar</button>
+
+<a href="/delete_exercicio/{{e[0]}}/{{aluno_id}}">
+Remover
+</a>
+
+</td>
+
+</form>
+
+</tr>
 
 {% endfor %}
 
-</ul>
+</table>
+
+<hr>
+
+<h3>Cronômetro de descanso</h3>
+
+<p id="timer">60</p>
+
+<button onclick="startTimer()">Iniciar descanso</button>
+
+<script>
+
+let tempo = 60;
+let intervalo;
+
+function startTimer(){
+
+clearInterval(intervalo);
+
+tempo = 60;
+
+intervalo = setInterval(function(){
+
+tempo--;
+
+document.getElementById("timer").innerText = tempo;
+
+if(tempo <= 0){
+clearInterval(intervalo);
+alert("Descanso terminado!");
+}
+
+},1000);
+
+}
+
+</script>
 
 {% endblock %}

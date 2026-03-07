@@ -2,7 +2,9 @@
 
 {% block conteudo %}
 
-<h2>🔥 Ranking Semanal</h2>
+<h2>🏆 Ranking da Academia</h2>
+
+<p>Classificação baseada em XP acumulado.</p>
 
 <table border="1" cellpadding="10">
 
@@ -16,8 +18,22 @@
 
 <tr>
 
-<td>{{loop.index}}</td>
+<td>
+
+{% if loop.index == 1 %}
+🥇
+{% elif loop.index == 2 %}
+🥈
+{% elif loop.index == 3 %}
+🥉
+{% else %}
+{{loop.index}}
+{% endif %}
+
+</td>
+
 <td>{{aluno[0]}}</td>
+
 <td>{{aluno[1]}}</td>
 
 </tr>
