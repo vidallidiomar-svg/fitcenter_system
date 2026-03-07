@@ -1,69 +1,114 @@
-# FITCENTER
+# 🏋️ FITCENTER SYSTEM
 
-Sistema de gestão para academias de pequeno porte desenvolvido em Python com Flask.
+Sistema de gestão para academias de pequeno porte.
 
-## Funcionalidades
+O projeto foi desenvolvido em **Python + Flask** e inclui funcionalidades de gestão de alunos, acompanhamento físico e **gamificação de treino**.
 
-- Cadastro de alunos
-- Gerenciamento de treinos (A/B/C)
-- Registro de avaliações físicas
-- Dashboard com métricas da academia
-- Sistema de login com diferentes tipos de usuário
-- Perfil do aluno com histórico físico
+---
 
-## Tecnologias utilizadas
+# 🚀 Funcionalidades
 
-- Python
-- Flask
-- SQLite
-- HTML
-- CSS
-- Chart.js
+✔ Cadastro de alunos
+✔ Avaliação física com histórico
+✔ Registro de treinos
+✔ Sistema de XP e níveis
+✔ Ranking da academia
+✔ Ranking semanal
+✔ Streak de treino (dias consecutivos)
+✔ Conquistas desbloqueáveis
+✔ Dashboard com métricas
+✔ Evolução física com gráficos
+✔ Aplicação instalável como **APP (PWA)**
 
-## Como executar o projeto
+---
 
-Clone o repositório
+# 🧠 Gamificação
 
-git clone https://github.com/vidallidiomar-svg/fitcenter-app.git
+O sistema utiliza um modelo de progressão para motivar alunos:
 
-Entre na pasta do projeto
+| XP   | Nível            |
+| ---- | ---------------- |
+| 0    | Iniciante        |
+| 100  | Aprendiz         |
+| 250  | Guerreiro(a)     |
+| 500  | Forjador(a)      |
+| 800  | Titã             |
+| 1200 | Divindade do Aço |
 
-cd fitcenter-app
+Cada treino registrado concede **XP**, aumentando o nível do aluno.
 
-Instale as dependências
+---
 
+# 📊 Dashboard
+
+O painel principal mostra:
+
+* total de alunos
+* XP acumulado da academia
+* treinos registrados
+
+---
+
+# 📱 Aplicativo Instalável
+
+O sistema foi preparado como **Progressive Web App (PWA)**.
+
+Isso permite:
+
+* instalar o sistema no celular
+* abrir como aplicativo
+* ícone próprio da academia
+* funcionamento offline básico
+
+---
+
+# ⚙️ Tecnologias
+
+* Python
+* Flask
+* SQLite
+* Chart.js
+* PWA
+
+---
+
+# 📦 Instalação
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/vidallidiomar-svg/fitcenter_system.git
+```
+
+Entre na pasta:
+
+```bash
+cd fitcenter_system
+```
+
+Instale as dependências:
+
+```bash
 pip install -r requirements.txt
+```
 
-Execute o sistema
+Execute o projeto:
 
+```bash
 python app.py
+```
 
-Abra no navegador
+Abra no navegador:
 
+```
 http://127.0.0.1:5000
+```
 
-## Usuário padrão
+---
 
-Email:
-suportesuper@gmail.com
+# 👨‍💻 Autor
 
-Senha:
-341062
+Projeto desenvolvido por **Lidiomar Vidal**.
 
-## Objetivo do projeto
+---
 
-Projeto desenvolvido como parte de estudo em desenvolvimento web com Python e Flask e utilizado como projeto de portfólio.
-
-## Screenshots do sistema
-
-### Login
-![Login](screenshots/login.png)
-
-### Dashboard
-![Dashboard](screenshots/dashboard.png)
-
-### Lista de alunos
-![Alunos](screenshots/alunos.png)
-
-### Treino
-![Treino](screenshots/treino.png)
