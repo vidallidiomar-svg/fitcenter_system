@@ -2,35 +2,33 @@
 
 {% block content %}
 
-<h2>Painel do treinador</h2>
+<h2 class="mb-4">Construtor de Treino</h2>
 
-<hr>
+<div class="card p-4 mb-4">
 
-<h4>Criar treino</h4>
+<h4>Criar novo treino</h4>
 
 <form method="POST" action="/criar_treino">
 
 <label>Aluno</label>
 
-<select name="aluno_id">
+<select name="aluno_id" class="form-control mb-3" required>
+
+<option value="">Selecione o aluno</option>
 
 {% for aluno in alunos %}
 
-<option value="{{aluno['id']}}">
-{{aluno["nome"]}}
+<option value="{{ aluno[0] }}">
+{{ aluno[1] }}
 </option>
 
 {% endfor %}
 
 </select>
 
-<br><br>
-
 <label>Nome do treino</label>
 
-<input name="nome">
-
-<br><br>
+<input class="form-control mb-3" name="nome" placeholder="Ex: Treino A">
 
 <button class="btn btn-primary">
 Criar treino
@@ -38,61 +36,93 @@ Criar treino
 
 </form>
 
-<hr>
+</div>
+
+
+
+<div class="card p-4">
 
 <h4>Adicionar exercício ao treino</h4>
 
 <form method="POST" action="/adicionar_exercicio">
 
-<label>ID do treino</label>
-<input name="treino_id">
+<div class="row">
 
-<br><br>
+<div class="col-md-2">
+
+<label>ID do treino</label>
+<input class="form-control" name="treino_id">
+
+</div>
+
+<div class="col-md-2">
 
 <label>Ordem</label>
-<input name="ordem">
+<input class="form-control" name="ordem">
 
-<br><br>
+</div>
+
+<div class="col-md-3">
 
 <label>Exercício</label>
-<input name="exercicio">
+<input class="form-control" name="nome" placeholder="Ex: Supino reto">
 
-<br><br>
+</div>
+
+<div class="col-md-1">
 
 <label>Séries</label>
-<input name="series">
+<input class="form-control" name="series">
 
-<br><br>
+</div>
+
+<div class="col-md-2">
 
 <label>Repetições</label>
-<input name="repeticoes">
+<input class="form-control" name="repeticoes">
 
-<br><br>
+</div>
+
+<div class="col-md-1">
 
 <label>Peso</label>
-<input name="peso">
+<input class="form-control" name="peso">
 
-<br><br>
+</div>
 
-<label>Intervalo (segundos)</label>
-<input name="intervalo">
+<div class="col-md-1">
 
-<br><br>
+<label>Intervalo</label>
+<input class="form-control" name="intervalo">
+
+</div>
+
+</div>
+
+<div class="row mt-3">
+
+<div class="col-md-3">
 
 <label>Método</label>
-<input name="metodo">
+<input class="form-control" name="metodo" placeholder="Drop / Biset / Fmax">
 
-<br><br>
+</div>
+
+<div class="col-md-3">
 
 <label>Movimento</label>
-<input name="movimento">
+<input class="form-control" name="movimento" placeholder="Lento / Rápido">
 
-<br><br>
+</div>
 
-<button class="btn btn-primary">
+</div>
+
+<button class="btn btn-primary mt-3">
 Adicionar exercício
 </button>
 
 </form>
+
+</div>
 
 {% endblock %}

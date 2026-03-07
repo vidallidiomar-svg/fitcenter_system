@@ -4,62 +4,105 @@
 
 <h2 class="mb-4">Dashboard FITCENTER</h2>
 
-<div class="row">
+<div class="row g-4">
 
-<div class="col-md-4">
+<!-- TOTAL ALUNOS -->
 
-<div class="card p-4">
+<div class="col-md-3">
 
-<h5>Total de alunos</h5>
+<div class="card p-4 text-center">
+
+<h6>Total de alunos</h6>
 
 <div class="metric">
 {{ total }}
 </div>
 
-</div>
+<small class="text-secondary">alunos cadastrados</small>
 
 </div>
 
-<div class="col-md-4">
+</div>
 
-<div class="card p-4">
 
-<h5>XP da academia</h5>
+<!-- XP ACADEMIA -->
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<h6>XP da academia</h6>
 
 <div class="metric">
 {{ xp_total }}
 </div>
 
-</div>
+<small class="text-secondary">experiência acumulada</small>
 
 </div>
 
-<div class="col-md-4">
+</div>
 
-<div class="card p-4">
 
-<h5>Treinos realizados</h5>
+<!-- TREINOS -->
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<h6>Treinos realizados</h6>
 
 <div class="metric">
 {{ treinos }}
 </div>
 
-</div>
+<small class="text-secondary">sessões registradas</small>
 
 </div>
 
 </div>
+
+
+<!-- STATUS -->
+
+<div class="col-md-3">
+
+<div class="card p-4 text-center">
+
+<h6>Status sistema</h6>
+
+<div class="metric" style="font-size:25px;color:#39ff14">
+ONLINE
+</div>
+
+<small class="text-secondary">FitCenter ativo</small>
+
+</div>
+
+</div>
+
+</div>
+
 
 <hr class="my-5">
 
-<h4>Ranking da academia</h4>
 
-<table class="table table-striped">
+<div class="row g-4">
+
+<!-- RANKING -->
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h4 class="mb-3">Ranking da academia</h4>
+
+<table class="table">
 
 <thead>
 
 <tr>
-<th>Posição</th>
+<th>#</th>
 <th>Aluno</th>
 <th>XP</th>
 </tr>
@@ -85,7 +128,18 @@
 
 <td>{{ aluno["nome"] }}</td>
 
-<td>{{ aluno["xp"] }}</td>
+<td>
+
+{{ aluno["xp"] }}
+
+<div class="progress mt-1" style="height:6px">
+
+<div class="progress-bar bg-info"
+style="width: {{ aluno['xp'] / 10 }}%"></div>
+
+</div>
+
+</td>
 
 </tr>
 
@@ -94,5 +148,87 @@
 </tbody>
 
 </table>
+
+</div>
+
+</div>
+
+
+<!-- GRÁFICO -->
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h4 class="mb-3">Atividade da academia</h4>
+
+<canvas id="graficoTreinos"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CHARTJS -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('graficoTreinos');
+
+new Chart(ctx, {
+
+type: 'line',
+
+data: {
+
+labels: ['Seg','Ter','Qua','Qui','Sex','Sab','Dom'],
+
+datasets: [{
+
+label: 'Treinos na semana',
+
+data: [3,5,4,7,6,2,4],
+
+borderColor: '#00e6e6',
+
+backgroundColor: 'rgba(0,230,230,0.2)',
+
+tension:0.4
+
+}]
+
+},
+
+options: {
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+ticks:{color:"white"}
+},
+
+y:{
+ticks:{color:"white"}
+}
+
+}
+
+}
+
+});
+
+</script>
 
 {% endblock %}
