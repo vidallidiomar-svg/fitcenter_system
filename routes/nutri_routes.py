@@ -1,100 +1,174 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, session
 from database.database import conectar
 
-treinador_bp = Blueprint("treinador", __name__)
+nutri_bp = Blueprint("nutri", __name__)
 
 
 # ===============================
-# DASHBOARD TREINADOR
+# PAINEL DO NUTRICIONISTA
 # ===============================
 
-@treinador_bp.route("/treinador")
-def treinador():
+@nutri_bp.route("/nutri")
+def nutri():
+
+    if "perfil" not in session or session["perfil"] not in ["nutricionista","admin"]:
+        return redirect("/login")
 
     conn = conectar()
     cursor = conn.cursor()
 
-    # total alunos
-    cursor.execute("SELECT COUNT(*) as total FROM alunos")
-    total_alunos = cursor.fetchone()["total"]
-
-    # xp total academia
-    cursor.execute("SELECT SUM(xp) as xp_total FROM alunos")
-    xp_total = cursor.fetchone()["xp_total"]
-
-    if xp_total is None:
-        xp_total = 0
-
-    # exercícios concluídos
     cursor.execute("""
-
-    SELECT COUNT(*) as total
-    FROM treino_exercicios
-    WHERE concluido = 1
-
+    SELECT planos.*, alunos.nome AS aluno_nome
+    FROM planos
+    JOIN alunos ON planos.aluno_id = alunos.id
+    ORDER BY planos.id DESC
     """)
 
-    exercicios_concluidos = cursor.fetchone()["total"]
-
-    # ranking alunos
-    cursor.execute("""
-
-    SELECT nome, xp
-    FROM alunos
-    ORDER BY xp DESC
-    LIMIT 5
-
-    """)
-
-    ranking = cursor.fetchall()
+    planos = cursor.fetchall()
 
     conn.close()
 
     return render_template(
-        "treinador.html",
-        total_alunos=total_alunos,
-        xp_total=xp_total,
-        exercicios_concluidos=exercicios_concluidos,
-        ranking=ranking
+        "nutri.html",
+        planos=planos
     )
 
 
 # ===============================
-# PROGRESSO DO ALUNO
+# CRIAR PLANO ALIMENTAR
 # ===============================
 
-@treinador_bp.route("/progresso_aluno/<int:aluno_id>")
-def progresso_aluno(aluno_id):
+@nutri_bp.route("/criar_plano", methods=["POST"])
+def criar_plano():
+
+    if "perfil" not in session or session["perfil"] not in ["nutricionista","admin"]:
+        return redirect("/login")
+
+    aluno_id = request.form["aluno_id"]
+    nome = request.form["nome"]
 
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute("""
 
-    SELECT nome
-    FROM alunos
+    INSERT INTO planos
+    (aluno_id, nome)
+
+    VALUES (?,?)
+
+    """,(aluno_id, nome))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/nutri")
+
+
+# ===============================
+# VISUALIZAR PLANO
+# ===============================
+
+@nutri_bp.route("/plano/<int:plano_id>")
+def plano(plano_id):
+
+    if "perfil" not in session or session["perfil"] not in ["nutricionista","admin"]:
+        return redirect("/login")
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+
+    SELECT *
+    FROM refeicoes
+    WHERE plano_id = ?
+
+    """,(plano_id,))
+
+    refeicoes = cursor.fetchall()
+
+    cursor.execute("""
+
+    SELECT 
+    SUM(calorias) AS calorias,
+    SUM(proteina) AS proteina,
+    SUM(carbo) AS carbo,
+    SUM(gordura) AS gordura
+    FROM refeicoes
+    WHERE plano_id = ?
+
+    """,(plano_id,))
+
+    macros = cursor.fetchone()
+
+    conn.close()
+
+    return render_template(
+        "plano.html",
+        plano_id=plano_id,
+        refeicoes=refeicoes,
+        macros=macros
+    )
+
+
+# ===============================
+# ADICIONAR REFEIÇÃO
+# ===============================
+
+@nutri_bp.route("/adicionar_refeicao", methods=["POST"])
+def adicionar_refeicao():
+
+    if "perfil" not in session or session["perfil"] not in ["nutricionista","admin"]:
+        return redirect("/login")
+
+    plano_id = request.form["plano_id"]
+    refeicao = request.form["refeicao"]
+    alimento = request.form["alimento"]
+    quantidade = request.form["quantidade"]
+
+    calorias = request.form["calorias"]
+    proteina = request.form["proteina"]
+    carbo = request.form["carbo"]
+    gordura = request.form["gordura"]
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+
+    INSERT INTO refeicoes
+    (plano_id, refeicao, alimento, quantidade, calorias, proteina, carbo, gordura)
+
+    VALUES (?,?,?,?,?,?,?,?)
+
+    """,(plano_id, refeicao, alimento, quantidade, calorias, proteina, carbo, gordura))
+
+    conn.commit()
+    conn.close()
+
+    return redirect(f"/plano/{plano_id}")
+
+
+# ===============================
+# EXCLUIR REFEIÇÃO
+# ===============================
+
+@nutri_bp.route("/excluir_refeicao/<int:id>/<int:plano_id>")
+def excluir_refeicao(id, plano_id):
+
+    if "perfil" not in session or session["perfil"] not in ["nutricionista","admin"]:
+        return redirect("/login")
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    DELETE FROM refeicoes
     WHERE id = ?
+    """,(id,))
 
-    """,(aluno_id,))
-
-    aluno = cursor.fetchone()
-
-    cursor.execute("""
-
-    SELECT nome, peso_real, reps_real
-    FROM treino_exercicios
-    WHERE treino_id IN
-    (SELECT id FROM treinos WHERE aluno_id = ?)
-    AND concluido = 1
-
-    """,(aluno_id,))
-
-    progresso = cursor.fetchall()
-
+    conn.commit()
     conn.close()
 
-    return render_template(
-        "progresso_aluno.html",
-        aluno=aluno,
-        progresso=progresso
-    )
+    return redirect(f"/plano/{plano_id}")
