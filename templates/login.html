@@ -2,18 +2,28 @@
 
 {% block conteudo %}
 
-<h2>Login</h2>
+<div class="row justify-content-center">
 
-<form method="POST">
+    <div class="col-md-4">
 
-Email:<br>
-<input name="email"><br><br>
+        <div class="card p-4">
 
-Senha:<br>
-<input type="password" name="senha"><br><br>
+            <h3 class="mb-4 text-center">Login</h3>
 
-<button type="submit">Entrar</button>
+            <form method="POST">
 
-</form>
+                <input class="form-control mb-3" name="email" placeholder="Email">
+
+                <input class="form-control mb-3" type="password" name="senha" placeholder="Senha">
+
+                <button class="btn btn-primary w-100">Entrar</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

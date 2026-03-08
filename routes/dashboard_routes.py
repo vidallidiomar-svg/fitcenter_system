@@ -4,31 +4,34 @@ from database.database import conectar
 dashboard_bp = Blueprint("dashboard", __name__)
 
 
+# ===============================
+# DASHBOARD
+# ===============================
+
 @dashboard_bp.route("/")
 def dashboard():
 
     conn = conectar()
     cursor = conn.cursor()
 
+    # total de alunos
+
     cursor.execute("SELECT COUNT(*) as total FROM alunos")
     total = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT SUM(xp) as total FROM alunos")
-    xp_total = cursor.fetchone()["total"]
+    # xp total
 
-    if xp_total is None:
-        xp_total = 0
+    cursor.execute("SELECT SUM(xp) as xp_total FROM alunos")
+    resultado = cursor.fetchone()
 
-    cursor.execute("SELECT COUNT(*) as total FROM treinos")
-    treinos = cursor.fetchone()["total"]
+    xp_total = resultado["xp_total"] if resultado["xp_total"] else 0
+
+    # ranking
 
     cursor.execute("""
-
-    SELECT nome,xp
+    SELECT nome, xp
     FROM alunos
     ORDER BY xp DESC
-    LIMIT 10
-
     """)
 
     ranking = cursor.fetchall()
@@ -39,6 +42,31 @@ def dashboard():
         "dashboard.html",
         total=total,
         xp_total=xp_total,
-        treinos=treinos,
+        ranking=ranking
+    )
+
+
+# ===============================
+# RANKING
+# ===============================
+
+@dashboard_bp.route("/ranking")
+def ranking():
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT nome, xp
+    FROM alunos
+    ORDER BY xp DESC
+    """)
+
+    ranking = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "ranking.html",
         ranking=ranking
     )

@@ -44,7 +44,7 @@ def cadastro():
         senha = request.form["senha"]
         genero = request.form["genero"]
 
-        # VALIDAÇÃO DE SENHA
+        # valida senha
 
         if len(senha) < 8:
 
@@ -56,6 +56,8 @@ def cadastro():
         conn = conectar()
         cursor = conn.cursor()
 
+        # cria aluno
+
         cursor.execute("""
 
         INSERT INTO alunos
@@ -64,6 +66,17 @@ def cadastro():
         VALUES (?, ?, ?, ?, ?, ?, ?)
 
         """, (nome, apelido, email, senha, genero, 0, 0))
+
+        # cria login automaticamente
+
+        cursor.execute("""
+
+        INSERT INTO usuarios
+        (nome, email, senha, perfil)
+
+        VALUES (?, ?, ?, ?)
+
+        """, (nome, email, senha, "aluno"))
 
         conn.commit()
         conn.close()

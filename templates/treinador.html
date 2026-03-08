@@ -1,128 +1,79 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block conteudo %}
 
-<h2 class="mb-4">Construtor de Treino</h2>
-
-<div class="card p-4 mb-4">
-
-<h4>Criar novo treino</h4>
-
-<form method="POST" action="/criar_treino">
-
-<label>Aluno</label>
-
-<select name="aluno_id" class="form-control mb-3" required>
-
-<option value="">Selecione o aluno</option>
-
-{% for aluno in alunos %}
-
-<option value="{{ aluno[0] }}">
-{{ aluno[1] }}
-</option>
-
-{% endfor %}
-
-</select>
-
-<label>Nome do treino</label>
-
-<input class="form-control mb-3" name="nome" placeholder="Ex: Treino A">
-
-<button class="btn btn-primary">
-Criar treino
-</button>
-
-</form>
-
-</div>
-
-
-
-<div class="card p-4">
-
-<h4>Adicionar exercício ao treino</h4>
-
-<form method="POST" action="/adicionar_exercicio">
+<h2 class="mb-4">Painel do Treinador</h2>
 
 <div class="row">
 
-<div class="col-md-2">
+    <div class="col-md-4">
 
-<label>ID do treino</label>
-<input class="form-control" name="treino_id">
+        <div class="card p-4">
 
-</div>
+            <h5>Total de alunos</h5>
 
-<div class="col-md-2">
+            <div class="metric">
+                {{ total_alunos }}
+            </div>
 
-<label>Ordem</label>
-<input class="form-control" name="ordem">
+        </div>
 
-</div>
+    </div>
 
-<div class="col-md-3">
+    <div class="col-md-4">
 
-<label>Exercício</label>
-<input class="form-control" name="nome" placeholder="Ex: Supino reto">
+        <div class="card p-4">
 
-</div>
+            <h5>XP da academia</h5>
 
-<div class="col-md-1">
+            <div class="metric">
+                {{ xp_total }}
+            </div>
 
-<label>Séries</label>
-<input class="form-control" name="series">
+        </div>
 
-</div>
+    </div>
 
-<div class="col-md-2">
+    <div class="col-md-4">
 
-<label>Repetições</label>
-<input class="form-control" name="repeticoes">
+        <div class="card p-4">
 
-</div>
+            <h5>Exercícios concluídos</h5>
 
-<div class="col-md-1">
+            <div class="metric">
+                {{ exercicios_concluidos }}
+            </div>
 
-<label>Peso</label>
-<input class="form-control" name="peso">
+        </div>
 
-</div>
-
-<div class="col-md-1">
-
-<label>Intervalo</label>
-<input class="form-control" name="intervalo">
+    </div>
 
 </div>
 
-</div>
+<hr class="my-5">
 
-<div class="row mt-3">
+<h4>Ranking da academia</h4>
 
-<div class="col-md-3">
+<table class="table table-dark">
 
-<label>Método</label>
-<input class="form-control" name="metodo" placeholder="Drop / Biset / Fmax">
+    <tr>
+        <th>Posição</th>
+        <th>Aluno</th>
+        <th>XP</th>
+    </tr>
 
-</div>
+    {% for aluno in ranking %}
 
-<div class="col-md-3">
+    <tr>
 
-<label>Movimento</label>
-<input class="form-control" name="movimento" placeholder="Lento / Rápido">
+        <td>{{loop.index}}</td>
+        <td>{{aluno["nome"]}}</td>
+        <td>{{aluno["xp"]}}</td>
 
-</div>
+    </tr>
 
-</div>
+    {% endfor %}
 
-<button class="btn btn-primary mt-3">
-Adicionar exercício
-</button>
-
-</form>
-
-</div>
+</table>
 
 {% endblock %}

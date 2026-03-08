@@ -2,35 +2,45 @@
 
 {% block content %}
 
-<h2 class="mb-4">Ranking da academia</h2>
+<h2>Ranking da Academia</h2>
 
-<table class="table table-striped">
+<table class="table">
 
-<thead>
+    <thead>
 
-<tr>
-<th>Posição</th>
-<th>Aluno</th>
-<th>XP</th>
-</tr>
+        <tr>
+            <th>Posição</th>
+            <th>Aluno</th>
+            <th>XP</th>
+        </tr>
 
-</thead>
+    </thead>
 
-<tbody>
+    <tbody>
 
-{% for aluno in ranking %}
+        {% for aluno in ranking %}
 
-<tr>
+        <tr>
 
-<td>{{ loop.index }}</td>
-<td>{{ aluno["nome"] }}</td>
-<td>{{ aluno["xp"] }}</td>
+            <td>
 
-</tr>
+                {% if loop.index == 1 %} 🥇
+                {% elif loop.index == 2 %} 🥈
+                {% elif loop.index == 3 %} 🥉
+                {% else %}
+                {{ loop.index }}
+                {% endif %}
 
-{% endfor %}
+            </td>
 
-</tbody>
+            <td>{{ aluno["nome"] }}</td>
+            <td>{{ aluno["xp"] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
 
 </table>
 

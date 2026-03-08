@@ -4,121 +4,56 @@
 
 <h2>Treino do aluno</h2>
 
-<h3>Adicionar exercício</h3>
-
-<form method="POST" action="/add_exercicio/{{aluno_id}}">
-
-Exercício:
-<input name="exercicio">
-
-Séries:
-<input name="series">
-
-Repetições:
-<input name="repeticoes">
-
-Peso:
-<input name="peso">
-
-<button type="submit">Adicionar</button>
-
-</form>
-
 <hr>
-
-<h3>Treino</h3>
-
-<table border="1" cellpadding="10">
-
-<tr>
-<th>✔</th>
-<th>Exercício</th>
-<th>Séries</th>
-<th>Reps</th>
-<th>Peso</th>
-<th>Ações</th>
-</tr>
 
 {% for e in exercicios %}
 
-<tr {% if e[6] == 1 %}style="background:#d4ffd4"{% endif %}>
+<div style="border:1px solid #444;padding:15px;margin-bottom:15px">
 
-<form method="POST" action="/update_exercicio/{{e[0]}}">
+    <b>{{e["nome"]}}</b>
 
-<td>
-<a href="/toggle_exercicio/{{e[0]}}/{{aluno_id}}">
-{% if e[6] == 1 %}✔{% else %}⬜{% endif %}
-</a>
-</td>
+    <br><br>
 
-<td>{{e[2]}}</td>
+    Planejado:
 
-<td>
-<input name="series" value="{{e[3]}}">
-</td>
+    <br>
 
-<td>
-<input name="repeticoes" value="{{e[4]}}">
-</td>
+    Séries: {{e["series"]}}
+    Reps: {{e["repeticoes"]}}
+    Peso: {{e["peso"]}}
 
-<td>
-<input name="peso" value="{{e[5]}}">
-</td>
+    <hr>
 
-<td>
+    <form method="POST" action="/registrar_exercicio">
 
-<input type="hidden" name="aluno_id" value="{{aluno_id}}">
+        <input type="hidden" name="exercicio_id" value="{{e['id']}}">
 
-<button type="submit">Salvar</button>
+        Peso utilizado:
 
-<a href="/delete_exercicio/{{e[0]}}/{{aluno_id}}">
-Remover
-</a>
+        <input name="peso_real" value="{{e['peso_real'] or ''}}">
 
-</td>
+        <br><br>
 
-</form>
+        Reps realizadas:
 
-</tr>
+        <input name="reps_real" value="{{e['reps_real'] or ''}}">
+
+        <br><br>
+
+        <button type="submit">
+
+            {% if e["concluido"] == 1 %}
+            ✔ Concluído
+            {% else %}
+            Marcar exercício
+            {% endif %}
+
+        </button>
+
+    </form>
+
+</div>
 
 {% endfor %}
-
-</table>
-
-<hr>
-
-<h3>Cronômetro de descanso</h3>
-
-<p id="timer">60</p>
-
-<button onclick="startTimer()">Iniciar descanso</button>
-
-<script>
-
-let tempo = 60;
-let intervalo;
-
-function startTimer(){
-
-clearInterval(intervalo);
-
-tempo = 60;
-
-intervalo = setInterval(function(){
-
-tempo--;
-
-document.getElementById("timer").innerText = tempo;
-
-if(tempo <= 0){
-clearInterval(intervalo);
-alert("Descanso terminado!");
-}
-
-},1000);
-
-}
-
-</script>
 
 {% endblock %}

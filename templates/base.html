@@ -3,149 +3,82 @@
 
 <head>
 
-<meta charset="UTF-8">
-<title>FITCENTER</title>
+    <meta charset="UTF-8">
+    <title>FITCENTER</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
+    <style>
+        body {
+            background: #0e0e0e;
+            color: white;
+            font-family: Arial;
+        }
 
-/* ========================
-FUNDO
-======================== */
+        .navbar {
+            background: #000;
+            border-bottom: 2px solid #00b3b3;
+        }
 
-body{
-background:#0a0a0a;
-color:white;
-font-family:Arial;
-}
+        .navbar-brand {
+            color: #00e6e6 !important;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
 
-/* ========================
-LAYOUT
-======================== */
+        .nav-link {
+            color: white !important;
+        }
 
-.wrapper{
-display:flex;
-min-height:100vh;
-}
+        .nav-link:hover {
+            color: #00e6e6 !important;
+        }
 
-/* ========================
-SIDEBAR
-======================== */
+        .card {
+            background: #111;
+            border: 1px solid #222;
+            color: white;
+        }
 
-.sidebar{
-width:230px;
-background:#000;
-border-right:2px solid #00b3b3;
-padding-top:30px;
-}
-
-.sidebar h3{
-text-align:center;
-color:#00e6e6;
-margin-bottom:30px;
-}
-
-.sidebar a{
-display:block;
-padding:12px 20px;
-color:white;
-text-decoration:none;
-}
-
-.sidebar a:hover{
-background:#00b3b3;
-color:black;
-}
-
-/* ========================
-CONTEÚDO
-======================== */
-
-.content{
-flex:1;
-padding:30px;
-}
-
-/* ========================
-CARDS
-======================== */
-
-.card{
-background:#111;
-border:1px solid #222;
-border-radius:12px;
-color:white;
-box-shadow:0px 5px 25px rgba(0,0,0,0.6);
-}
-
-.metric{
-font-size:40px;
-font-weight:bold;
-color:#00e6e6;
-}
-
-/* ========================
-TABELA
-======================== */
-
-.table{
-background:#111;
-color:white;
-}
-
-.table th{
-background:#00b3b3;
-color:black;
-}
-
-/* ========================
-BOTÕES
-======================== */
-
-.btn-primary{
-background:#00b3b3;
-border:none;
-}
-
-.btn-primary:hover{
-background:#008888;
-}
-
-</style>
+        .metric {
+            font-size: 40px;
+            font-weight: bold;
+            color: #00e6e6;
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="wrapper">
+    <nav class="navbar navbar-expand-lg">
 
-<!-- SIDEBAR -->
+        <div class="container">
 
-<div class="sidebar">
+            <a class="navbar-brand" href="/">FITCENTER</a>
 
-<h3>FITCENTER</h3>
+            <div class="navbar-nav">
 
-<a href="/">Dashboard</a>
-<a href="/cadastro">Cadastrar aluno</a>
-<a href="/alunos">Alunos</a>
-<a href="/ranking">Ranking</a>
-<a href="/treinador">Treinador</a>
-<a href="/login">Portal do aluno</a>
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/treinador">Treinador</a>
+                <a class="nav-link" href="/nutri">Nutrição</a>
+                <a class="nav-link" href="/ranking">Ranking</a>
+                <a class="nav-link" href="/portal_aluno">Portal aluno</a>
 
-</div>
+            </div>
 
-<!-- CONTEÚDO -->
+        </div>
 
-<div class="content">
+    </nav>
 
-{% block content %}{% endblock %}
+    <div class="container mt-4">
 
-</div>
+        {% block conteudo %}{% endblock %}
 
-</div>
+    </div>
 
 </body>
+
 </html>

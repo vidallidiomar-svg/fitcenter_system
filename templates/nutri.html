@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2 class="mb-4">Painel Nutricionista</h2>
+
+<div class="card p-4 mb-4">
+
+    <h4>Criar plano alimentar</h4>
+
+    <form method="POST" action="/criar_plano">
+
+        <input class="form-control mb-2" name="aluno_id" placeholder="ID do aluno">
+
+        <input class="form-control mb-2" name="nome" placeholder="Nome do plano">
+
+        <button class="btn btn-primary">Criar plano</button>
+
+    </form>
+
+</div>
+
+<h4>Planos existentes</h4>
+
+{% for plano in planos %}
+
+<div class="card p-3 mb-2">
+
+    <b>{{plano["nome"]}}</b>
+
+    <br>
+
+    <a href="/plano/{{plano['id']}}" class="btn btn-sm btn-primary mt-2">
+
+        Editar plano
+
+    </a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

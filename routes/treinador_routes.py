@@ -1,133 +1,103 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, session, redirect
 from database.database import conectar
-import pandas as pd
 
 treinador_bp = Blueprint("treinador", __name__)
 
 
 # ===============================
-# PAINEL DO TREINADOR
+# DASHBOARD TREINADOR
 # ===============================
 
 @treinador_bp.route("/treinador")
-def painel_treinador():
+def treinador():
+
+    # PROTEÇÃO LOGIN
+    if "perfil" not in session or session["perfil"] not in ["treinador","admin"]:
+        return redirect("/login")
 
     conn = conectar()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM alunos")
+    cursor.execute("SELECT COUNT(*) as total FROM alunos")
+    total_alunos = cursor.fetchone()["total"]
 
-    alunos = cursor.fetchall()
+    cursor.execute("SELECT SUM(xp) as xp_total FROM alunos")
+    xp_total = cursor.fetchone()["xp_total"]
+
+    if xp_total is None:
+        xp_total = 0
+
+    cursor.execute("""
+
+    SELECT COUNT(*) as total
+    FROM treino_exercicios
+    WHERE concluido = 1
+
+    """)
+
+    exercicios_concluidos = cursor.fetchone()["total"]
+
+    cursor.execute("""
+
+    SELECT nome, xp
+    FROM alunos
+    ORDER BY xp DESC
+    LIMIT 5
+
+    """)
+
+    ranking = cursor.fetchall()
 
     conn.close()
 
     return render_template(
         "treinador.html",
-        alunos=alunos
+        total_alunos=total_alunos,
+        xp_total=xp_total,
+        exercicios_concluidos=exercicios_concluidos,
+        ranking=ranking
     )
 
 
 # ===============================
-# CRIAR TREINO
+# PROGRESSO DO ALUNO
 # ===============================
 
-@treinador_bp.route("/criar_treino", methods=["POST"])
-def criar_treino():
+@treinador_bp.route("/progresso_aluno/<int:aluno_id>")
+def progresso_aluno(aluno_id):
 
-    aluno_id = request.form["aluno_id"]
-    nome = request.form["nome"]
+    if "perfil" not in session or session["perfil"] not in ["treinador","admin"]:
+        return redirect("/login")
 
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute("""
 
-    INSERT INTO treinos (aluno_id,nome)
+    SELECT nome
+    FROM alunos
+    WHERE id = ?
 
-    VALUES (?,?)
+    """,(aluno_id,))
 
-    """,(aluno_id,nome))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/treinador")
-
-
-# ===============================
-# ADICIONAR EXERCICIO
-# ===============================
-
-@treinador_bp.route("/adicionar_exercicio", methods=["POST"])
-def adicionar_exercicio():
-
-    treino_id = request.form["treino_id"]
-    ordem = request.form["ordem"]
-    nome = request.form["nome"]
-    series = request.form["series"]
-    repeticoes = request.form["repeticoes"]
-    peso = request.form["peso"]
-    intervalo = request.form["intervalo"]
-    metodo = request.form["metodo"]
-    movimento = request.form["movimento"]
-
-    conn = conectar()
-    cursor = conn.cursor()
+    aluno = cursor.fetchone()
 
     cursor.execute("""
 
-    INSERT INTO treino_exercicios
-    (treino_id,ordem,nome,series,repeticoes,peso,intervalo,metodo,movimento)
+    SELECT nome, peso_real, reps_real
+    FROM treino_exercicios
+    WHERE treino_id IN
+    (SELECT id FROM treinos WHERE aluno_id = ?)
+    AND concluido = 1
 
-    VALUES (?,?,?,?,?,?,?,?,?)
+    """,(aluno_id,))
 
-    """,(treino_id,ordem,nome,series,repeticoes,peso,intervalo,metodo,movimento))
+    progresso = cursor.fetchall()
 
-    conn.commit()
     conn.close()
 
-    return redirect("/treinador")
-
-
-# ===============================
-# IMPORTAR TREINO EXCEL
-# ===============================
-
-@treinador_bp.route("/importar_treino_excel", methods=["POST"])
-def importar_treino_excel():
-
-    arquivo = request.files["arquivo"]
-
-    df = pd.read_excel(arquivo)
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    treino_id = request.form["treino_id"]
-
-    for _, linha in df.iterrows():
-
-        cursor.execute("""
-
-        INSERT INTO treino_exercicios
-        (treino_id,ordem,series,repeticoes,peso,intervalo,metodo,movimento)
-
-        VALUES (?,?,?,?,?,?,?,?)
-
-        """, (
-
-        treino_id,
-        linha["ordem"],
-        linha["series"],
-        linha["repeticoes"],
-        linha["peso"],
-        linha["intervalo"],
-        linha["metodo"],
-        linha["movimento"]
-
-        ))
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/treinador")
+    return render_template(
+        "progresso_aluno.html",
+        aluno=aluno,
+        progresso=progresso
+    )

@@ -2,50 +2,102 @@
 
 {% block conteudo %}
 
-<h2>Exercícios do treino</h2>
+<h2 class="mb-4">Biblioteca de Exercícios</h2>
 
-<form method="POST">
+<div class="row">
 
-Exercício:<br>
-<input name="exercicio"><br><br>
+    <!-- FORMULÁRIO -->
+    <div class="col-md-4">
 
-Séries:<br>
-<input name="series"><br><br>
+        <div class="card p-4">
 
-Repetições:<br>
-<input name="repeticoes"><br><br>
+            <h4 class="mb-3">Novo exercício</h4>
 
-Carga:<br>
-<input name="carga"><br><br>
+            <form method="POST" action="/criar_exercicio">
 
-<button type="submit">Adicionar exercício</button>
+                <div class="mb-3">
 
-</form>
+                    <label>Nome</label>
+                    <input class="form-control" name="nome" placeholder="Ex: Supino reto">
 
-<hr>
+                </div>
 
-<table border="1" cellpadding="10">
+                <div class="mb-3">
 
-<tr>
-<th>Exercício</th>
-<th>Séries</th>
-<th>Repetições</th>
-<th>Carga</th>
-</tr>
+                    <label>Grupo muscular</label>
 
-{% for e in exercicios %}
+                    <select class="form-control" name="grupo">
 
-<tr>
+                        <option>Peito</option>
+                        <option>Costas</option>
+                        <option>Perna</option>
+                        <option>Ombro</option>
+                        <option>Bíceps</option>
+                        <option>Tríceps</option>
+                        <option>Abdômen</option>
 
-<td>{{e[0]}}</td>
-<td>{{e[1]}}</td>
-<td>{{e[2]}}</td>
-<td>{{e[3]}}</td>
+                    </select>
 
-</tr>
+                </div>
 
-{% endfor %}
+                <div class="mb-3">
 
-</table>
+                    <label>Equipamento</label>
+                    <input class="form-control" name="equipamento" placeholder="Ex: Barra">
+
+                </div>
+
+                <button class="btn btn-primary w-100">
+                    Criar exercício
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- LISTA -->
+    <div class="col-md-8">
+
+        <div class="card p-4">
+
+            <h4 class="mb-3">Lista de exercícios</h4>
+
+            <table class="table table-dark table-striped">
+
+                <thead>
+
+                    <tr>
+                        <th>Nome</th>
+                        <th>Grupo</th>
+                        <th>Equipamento</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for e in exercicios %}
+
+                    <tr>
+
+                        <td>{{e["nome"]}}</td>
+                        <td>{{e["grupo"]}}</td>
+                        <td>{{e["equipamento"]}}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

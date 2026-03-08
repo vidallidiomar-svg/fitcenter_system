@@ -17,6 +17,9 @@ from routes.auth_routes import auth_bp
 from routes.treinador_routes import treinador_bp
 from routes.treino_routes import treino_bp
 from routes.nutri_routes import nutri_bp
+from routes.exercicios_routes import exercicios_bp
+from routes.avaliacao_routes import avaliacao_bp
+from routes.admin_routes import admin_bp
 
 
 # ===============================
@@ -24,7 +27,6 @@ from routes.nutri_routes import nutri_bp
 # ===============================
 
 app = Flask(__name__)
-
 app.secret_key = "fitcenter_secret"
 
 
@@ -45,13 +47,23 @@ iniciar_banco()
 # REGISTRAR BLUEPRINTS
 # ===============================
 
-app.register_blueprint(dashboard_bp)
-app.register_blueprint(aluno_bp)
-app.register_blueprint(aluno_portal_bp)
-app.register_blueprint(auth_bp)
-app.register_blueprint(treinador_bp)
-app.register_blueprint(treino_bp)
-app.register_blueprint(nutri_bp)
+blueprints = [
+
+    dashboard_bp,
+    aluno_bp,
+    aluno_portal_bp,
+    auth_bp,
+    treinador_bp,
+    treino_bp,
+    nutri_bp,
+    exercicios_bp,
+    avaliacao_bp,
+    admin_bp
+
+]
+
+for bp in blueprints:
+    app.register_blueprint(bp)
 
 
 # ===============================

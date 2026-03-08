@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Painel Nutricionista</h2>
+
+<hr>
+
+<h3>Criar plano alimentar</h3>
+
+<form method="POST" action="/criar_plano">
+
+    Aluno ID
+    <input name="aluno_id">
+
+    Nome do plano
+    <input name="nome">
+
+    <button type="submit">Criar plano</button>
+
+</form>
+
+<hr>
+
+<h3>Planos existentes</h3>
+
+{% for plano in planos %}
+
+<div style="border:1px solid #444;padding:10px;margin-bottom:10px">
+
+    <b>{{plano["nome"]}}</b>
+
+    <br>
+
+    <a href="/plano/{{plano['id']}}">
+
+        <button>Editar plano</button>
+
+    </a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
