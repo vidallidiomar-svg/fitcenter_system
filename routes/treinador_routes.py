@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template, session, redirect
+from flask import Blueprint, render_template, request, redirect
 from database.database import conectar
+import os
 
 treinador_bp = Blueprint("treinador", __name__)
+
+UPLOAD_FOLDER = "uploads/treinos"
 
 
 # ===============================
@@ -10,10 +13,6 @@ treinador_bp = Blueprint("treinador", __name__)
 
 @treinador_bp.route("/treinador")
 def treinador():
-
-    # PROTEÇÃO LOGIN
-    if "perfil" not in session or session["perfil"] not in ["treinador","admin"]:
-        return redirect("/login")
 
     conn = conectar()
     cursor = conn.cursor()
@@ -28,22 +27,18 @@ def treinador():
         xp_total = 0
 
     cursor.execute("""
-
     SELECT COUNT(*) as total
     FROM treino_exercicios
     WHERE concluido = 1
-
     """)
 
     exercicios_concluidos = cursor.fetchone()["total"]
 
     cursor.execute("""
-
     SELECT nome, xp
     FROM alunos
     ORDER BY xp DESC
     LIMIT 5
-
     """)
 
     ranking = cursor.fetchall()
@@ -60,44 +55,36 @@ def treinador():
 
 
 # ===============================
-# PROGRESSO DO ALUNO
+# UPLOAD TREINO PDF
 # ===============================
 
-@treinador_bp.route("/progresso_aluno/<int:aluno_id>")
-def progresso_aluno(aluno_id):
+@treinador_bp.route("/upload_treino", methods=["POST"])
+def upload_treino():
 
-    if "perfil" not in session or session["perfil"] not in ["treinador","admin"]:
-        return redirect("/login")
+    aluno_id = request.form["aluno_id"]
+    nome = request.form["nome"]
 
-    conn = conectar()
-    cursor = conn.cursor()
+    arquivo = request.files["arquivo"]
 
-    cursor.execute("""
+    if arquivo:
 
-    SELECT nome
-    FROM alunos
-    WHERE id = ?
+        caminho = os.path.join(UPLOAD_FOLDER, arquivo.filename)
 
-    """,(aluno_id,))
+        arquivo.save(caminho)
 
-    aluno = cursor.fetchone()
+        conn = conectar()
+        cursor = conn.cursor()
 
-    cursor.execute("""
+        cursor.execute("""
 
-    SELECT nome, peso_real, reps_real
-    FROM treino_exercicios
-    WHERE treino_id IN
-    (SELECT id FROM treinos WHERE aluno_id = ?)
-    AND concluido = 1
+        INSERT INTO treinos
+        (aluno_id, nome, arquivo_pdf)
 
-    """,(aluno_id,))
+        VALUES (?, ?, ?)
 
-    progresso = cursor.fetchall()
+        """,(aluno_id, nome, arquivo.filename))
 
-    conn.close()
+        conn.commit()
+        conn.close()
 
-    return render_template(
-        "progresso_aluno.html",
-        aluno=aluno,
-        progresso=progresso
-    )
+    return redirect("/treinador")

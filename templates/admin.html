@@ -2,54 +2,38 @@
 
 {% block conteudo %}
 
-<h2 class="mb-4">Painel Administrativo</h2>
+<h2>Painel Administrativo</h2>
 
-<div class="card p-4 mb-4">
+<hr>
 
-    <h4>Criar novo usuário</h4>
+<h4>Criar novo usuário</h4>
 
-    <form method="POST" action="/criar_usuario">
+<form method="POST" action="/criar_usuario">
 
-        <div class="row">
+    <input name="nome" placeholder="Nome">
 
-            <div class="col-md-3">
-                <input class="form-control" name="nome" placeholder="Nome">
-            </div>
+    <input name="email" placeholder="Email">
 
-            <div class="col-md-3">
-                <input class="form-control" name="email" placeholder="Email">
-            </div>
+    <input name="senha" placeholder="Senha">
 
-            <div class="col-md-2">
-                <input class="form-control" name="senha" placeholder="Senha">
-            </div>
+    <select name="perfil">
 
-            <div class="col-md-2">
+        <option value="aluno">Aluno</option>
+        <option value="treinador">Treinador</option>
+        <option value="nutricionista">Nutricionista</option>
+        <option value="admin">Admin</option>
 
-                <select class="form-control" name="perfil">
+    </select>
 
-                    <option value="aluno">Aluno</option>
-                    <option value="treinador">Treinador</option>
-                    <option value="nutricionista">Nutricionista</option>
-                    <option value="admin">Admin</option>
+    <button>Criar usuário</button>
 
-                </select>
+</form>
 
-            </div>
+<hr>
 
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100">Criar</button>
-            </div>
+<h4>Usuários cadastrados</h4>
 
-        </div>
-
-    </form>
-
-</div>
-
-<h4>Usuários do sistema</h4>
-
-<table class="table table-dark">
+<table border="1" cellpadding="10">
 
     <tr>
         <th>ID</th>
@@ -70,7 +54,13 @@
 
         <td>
 
-            <a href="/excluir_usuario/{{u['id']}}" class="btn btn-danger btn-sm">
+            <a href="/resetar_senha/{{u['id']}}">
+                Resetar senha
+            </a>
+
+            |
+
+            <a href="/excluir_usuario/{{u['id']}}">
                 Excluir
             </a>
 

@@ -5,10 +5,11 @@ auth_bp = Blueprint("auth", __name__)
 
 
 # ===============================
-# LOGIN
+# TELA INICIAL = LOGIN
 # ===============================
 
-@auth_bp.route("/login", methods=["GET","POST"])
+@auth_bp.route("/", methods=["GET", "POST"])
+@auth_bp.route("/login", methods=["GET", "POST"])
 def login():
 
     if request.method == "POST":
@@ -32,6 +33,7 @@ def login():
 
             session["usuario_id"] = usuario["id"]
             session["perfil"] = usuario["perfil"]
+            session["nome"] = usuario["nome"]
 
             if usuario["perfil"] == "admin":
                 return redirect("/admin")

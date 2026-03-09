@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Criar treino</h2>
+
+<p>Aluno: {{ aluno["nome"] }}</p>
+
+<form method="POST">
+
+    <input name="nome" placeholder="Nome do treino">
+
+    <button class="btn btn-primary">
+        Criar treino
+    </button>
+
+</form>
+
+{% endblock %}

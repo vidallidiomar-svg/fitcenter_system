@@ -17,6 +17,8 @@
             font-family: Arial;
         }
 
+        /* NAVBAR */
+
         .navbar {
             background: #000;
             border-bottom: 2px solid #00b3b3;
@@ -36,16 +38,43 @@
             color: #00e6e6 !important;
         }
 
+        /* CARDS */
+
         .card {
             background: #111;
             border: 1px solid #222;
             color: white;
         }
 
+        /* MÉTRICAS */
+
         .metric {
             font-size: 40px;
             font-weight: bold;
             color: #00e6e6;
+        }
+
+        /* BOTÕES */
+
+        .btn-primary {
+            background: #00b3b3;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #008c8c;
+        }
+
+        /* TABELAS */
+
+        .table {
+            background: #111;
+            color: white;
+        }
+
+        .table th {
+            background: #00b3b3;
+            color: black;
         }
     </style>
 
@@ -53,21 +82,43 @@
 
 <body>
 
+    <!-- NAVBAR -->
+
     <nav class="navbar navbar-expand-lg">
 
         <div class="container">
 
-            <a class="navbar-brand" href="/">FITCENTER</a>
+            <a class="navbar-brand" href="/dashboard">FITCENTER</a>
+
+            {% if session.get("usuario_id") %}
 
             <div class="navbar-nav">
 
-                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link" href="/dashboard">Dashboard</a>
+
+                {% if session["perfil"] == "admin" %}
+                <a class="nav-link" href="/admin">Admin</a>
+                {% endif %}
+
+                {% if session["perfil"] in ["admin","treinador"] %}
                 <a class="nav-link" href="/treinador">Treinador</a>
+                {% endif %}
+
+                {% if session["perfil"] in ["admin","nutricionista"] %}
                 <a class="nav-link" href="/nutri">Nutrição</a>
+                {% endif %}
+
                 <a class="nav-link" href="/ranking">Ranking</a>
+
+                {% if session["perfil"] == "aluno" %}
                 <a class="nav-link" href="/portal_aluno">Portal aluno</a>
+                {% endif %}
+
+                <a class="nav-link" href="/logout">Sair</a>
 
             </div>
+
+            {% endif %}
 
         </div>
 
@@ -78,6 +129,8 @@
         {% block conteudo %}{% endblock %}
 
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

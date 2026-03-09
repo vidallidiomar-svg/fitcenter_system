@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Editar treino</h2>
+
+<hr>
+
+<h4>Adicionar exercício</h4>
+
+<form method="POST" action="/adicionar_exercicio">
+
+    <input type="hidden" name="treino_id" value="{{treino_id}}">
+
+    <select name="nome">
+
+        {% for e in biblioteca %}
+
+        <option>{{e["nome"]}}</option>
+
+        {% endfor %}
+
+    </select>
+
+    <input name="series" placeholder="Séries">
+
+    <input name="repeticoes" placeholder="Reps">
+
+    <input name="peso" placeholder="Peso">
+
+    <input name="intervalo" placeholder="Intervalo">
+
+    <button>Adicionar</button>
+
+</form>
+
+<hr>
+
+<h4>Exercícios do treino</h4>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>Ordem</th>
+        <th>Exercício</th>
+        <th>Séries</th>
+        <th>Reps</th>
+        <th>Peso</th>
+        <th>Intervalo</th>
+    </tr>
+
+    {% for e in exercicios %}
+
+    <tr>
+
+        <td>{{e["ordem"]}}</td>
+        <td>{{e["nome"]}}</td>
+        <td>{{e["series"]}}</td>
+        <td>{{e["repeticoes"]}}</td>
+        <td>{{e["peso"]}}</td>
+        <td>{{e["intervalo"]}}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

@@ -2,58 +2,48 @@
 
 {% block conteudo %}
 
-<h2>Treino do aluno</h2>
+<h2>Meus treinos</h2>
 
-<hr>
+<table class="table">
 
-{% for e in exercicios %}
+    <tr>
+        <th>Treino</th>
+        <th>Abrir</th>
+        <th>Status</th>
+    </tr>
 
-<div style="border:1px solid #444;padding:15px;margin-bottom:15px">
+    {% for t in treinos %}
 
-    <b>{{e["nome"]}}</b>
+    <tr>
 
-    <br><br>
+        <td>{{ t["nome"] }}</td>
 
-    Planejado:
+        <td>
+            <a href="/uploads/treinos/{{ t['arquivo_pdf'] }}" target="_blank">
+                Abrir treino
+            </a>
+        </td>
 
-    <br>
+        <td>
 
-    Séries: {{e["series"]}}
-    Reps: {{e["repeticoes"]}}
-    Peso: {{e["peso"]}}
+            {% if t["concluido"] == 1 %}
 
-    <hr>
-
-    <form method="POST" action="/registrar_exercicio">
-
-        <input type="hidden" name="exercicio_id" value="{{e['id']}}">
-
-        Peso utilizado:
-
-        <input name="peso_real" value="{{e['peso_real'] or ''}}">
-
-        <br><br>
-
-        Reps realizadas:
-
-        <input name="reps_real" value="{{e['reps_real'] or ''}}">
-
-        <br><br>
-
-        <button type="submit">
-
-            {% if e["concluido"] == 1 %}
             ✔ Concluído
+
             {% else %}
-            Marcar exercício
+
+            <a href="/concluir_treino/{{ t['id'] }}">
+                Marcar concluído
+            </a>
+
             {% endif %}
 
-        </button>
+        </td>
 
-    </form>
+    </tr>
 
-</div>
+    {% endfor %}
 
-{% endfor %}
+</table>
 
 {% endblock %}

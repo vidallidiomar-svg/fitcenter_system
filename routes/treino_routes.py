@@ -1,61 +1,46 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, redirect
 from database.database import conectar
 
 treino_bp = Blueprint("treino", __name__)
 
 
-# ===============================
-# BIBLIOTECA DE EXERCICIOS
-# ===============================
-
-@treino_bp.route("/exercicios")
-def exercicios():
+@treino_bp.route("/treino/<int:aluno_id>")
+def treino(aluno_id):
 
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute("""
-
     SELECT *
-    FROM exercicios
-    ORDER BY grupo
+    FROM treinos
+    WHERE aluno_id = ?
+    """,(aluno_id,))
 
-    """)
-
-    exercicios = cursor.fetchall()
+    treinos = cursor.fetchall()
 
     conn.close()
 
     return render_template(
-        "exercicios.html",
-        exercicios=exercicios
+        "treino.html",
+        treinos=treinos
     )
 
 
-# ===============================
-# ADICIONAR EXERCICIO NA BIBLIOTECA
-# ===============================
-
-@treino_bp.route("/criar_exercicio", methods=["POST"])
-def criar_exercicio():
-
-    nome = request.form["nome"]
-    grupo = request.form["grupo"]
-    equipamento = request.form["equipamento"]
+@treino_bp.route("/concluir_treino/<int:treino_id>")
+def concluir_treino(treino_id):
 
     conn = conectar()
     cursor = conn.cursor()
 
     cursor.execute("""
 
-    INSERT INTO exercicios
-    (nome,grupo,equipamento)
+    UPDATE treinos
+    SET concluido = 1
+    WHERE id = ?
 
-    VALUES (?,?,?)
-
-    """,(nome,grupo,equipamento))
+    """,(treino_id,))
 
     conn.commit()
     conn.close()
 
-    return redirect("/exercicios")
+    return redirect("/")

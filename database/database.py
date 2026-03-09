@@ -1,10 +1,6 @@
 import sqlite3
 
 
-# ===============================
-# CONEXÃO COM O BANCO
-# ===============================
-
 def conectar():
 
     conn = sqlite3.connect("fitcenter.db")
@@ -15,22 +11,32 @@ def conectar():
     return conn
 
 
-# ===============================
-# CRIAR TABELAS
-# ===============================
-
 def criar_tabelas(conn):
 
     cursor = conn.cursor()
 
+    # =========================
+    # TABELA USUÁRIOS
+    # =========================
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS usuarios(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        email TEXT UNIQUE,
+        senha TEXT,
+        perfil TEXT
+
+    )
+    """)
 
     # =========================
     # TABELA ALUNOS
     # =========================
 
     cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS alunos (
+    CREATE TABLE IF NOT EXISTS alunos(
 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT,
@@ -43,53 +49,30 @@ def criar_tabelas(conn):
         streak INTEGER DEFAULT 0
 
     )
-
     """)
-
-
-    # =========================
-    # TABELA USUÁRIOS (LOGIN)
-    # =========================
-
-    cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS usuarios (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT,
-        email TEXT,
-        senha TEXT,
-        perfil TEXT
-
-    )
-
-    """)
-
 
     # =========================
     # TABELA TREINOS
     # =========================
 
-    cursor.execute("""
+   cursor.execute("""
+CREATE TABLE IF NOT EXISTS treinos(
 
-    CREATE TABLE IF NOT EXISTS treinos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    aluno_id INTEGER,
+    nome TEXT,
+    arquivo_pdf TEXT,
+    concluido INTEGER DEFAULT 0
 
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER,
-        nome TEXT
-
-    )
-
-    """)
-
+)
+""")
 
     # =========================
-    # TABELA EXERCÍCIOS DO TREINO
+    # EXERCICIOS
     # =========================
 
     cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS treino_exercicios (
+    CREATE TABLE IF NOT EXISTS treino_exercicios(
 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         treino_id INTEGER,
@@ -99,92 +82,11 @@ def criar_tabelas(conn):
         repeticoes TEXT,
         peso TEXT,
         intervalo TEXT,
-
-        peso_real TEXT,
-        reps_real TEXT,
+        metodo TEXT,
+        movimento TEXT,
         concluido INTEGER DEFAULT 0
 
     )
-
     """)
-
-
-    # =========================
-    # TABELA AVALIAÇÕES FÍSICAS
-    # =========================
-
-    cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS avaliacoes (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER,
-        peso REAL,
-        gordura REAL,
-        massa REAL,
-        data TEXT
-
-    )
-
-    """)
-
-
-    # =========================
-    # BIBLIOTECA DE EXERCÍCIOS
-    # =========================
-
-    cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS exercicios (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nome TEXT,
-        grupo TEXT,
-        equipamento TEXT
-
-    )
-
-    """)
-
-
-    # =========================
-    # PLANOS ALIMENTARES
-    # =========================
-
-    cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS planos (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        aluno_id INTEGER,
-        nome TEXT
-
-    )
-
-    """)
-
-
-    # =========================
-    # REFEIÇÕES DO PLANO
-    # =========================
-
-    cursor.execute("""
-
-    CREATE TABLE IF NOT EXISTS refeicoes (
-
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        plano_id INTEGER,
-        refeicao TEXT,
-        alimento TEXT,
-        quantidade TEXT,
-        calorias INTEGER,
-        proteina INTEGER,
-        carbo INTEGER,
-        gordura INTEGER
-
-    )
-
-    """)
-
 
     conn.commit()

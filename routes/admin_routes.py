@@ -18,8 +18,7 @@ def admin():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT id,nome,email,perfil
-    FROM usuarios
+    SELECT * FROM usuarios
     ORDER BY id DESC
     """)
 
@@ -78,8 +77,35 @@ def excluir_usuario(id):
 
     cursor.execute("""
     DELETE FROM usuarios
-    WHERE id = ?
+    WHERE id=?
     """,(id,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin")
+
+
+# ===============================
+# RESETAR SENHA
+# ===============================
+
+@admin_bp.route("/resetar_senha/<int:id>")
+def resetar_senha(id):
+
+    if "perfil" not in session or session["perfil"] != "admin":
+        return redirect("/login")
+
+    nova_senha = "12345678"
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE usuarios
+    SET senha=?
+    WHERE id=?
+    """,(nova_senha,id))
 
     conn.commit()
     conn.close()

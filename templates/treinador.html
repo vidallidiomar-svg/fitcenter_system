@@ -4,6 +4,22 @@
 
 <h2 class="mb-4">Painel do Treinador</h2>
 
+<hr>
+
+<h3>Upload de treino (PDF ou Excel)</h3>
+
+<form method="POST" action="/upload_treino" enctype="multipart/form-data">
+
+    <input class="form-control mb-2" name="aluno_id" placeholder="ID do aluno">
+
+    <input class="form-control mb-2" name="nome" placeholder="Nome do treino">
+
+    <input class="form-control mb-2" type="file" name="arquivo">
+
+    <button class="btn btn-primary">Enviar treino</button>
+
+</form>
+
 <div class="row">
 
     <div class="col-md-4">
