@@ -2,47 +2,66 @@
 
 {% block conteudo %}
 
-<h2>Meus treinos</h2>
+<h2>Meus Treinos</h2>
 
-<table class="table">
+<table class="table table-striped">
 
-    <tr>
-        <th>Treino</th>
-        <th>Abrir</th>
-        <th>Status</th>
-    </tr>
+    <thead>
+        <tr>
+            <th>Treino</th>
+            <th>Ver treino</th>
+            <th>PDF</th>
+            <th>Status</th>
+        </tr>
+    </thead>
 
-    {% for t in treinos %}
+    <tbody>
 
-    <tr>
+        {% for t in treinos %}
 
-        <td>{{ t["nome"] }}</td>
+        <tr>
 
-        <td>
-            <a href="/uploads/treinos/{{ t['arquivo_pdf'] }}" target="_blank">
-                Abrir treino
-            </a>
-        </td>
+            <td>{{ t["nome"] }}</td>
 
-        <td>
+            <td>
+                <a class="btn btn-sm btn-primary" href="/treino_detalhe/{{ t['id'] }}">
+                    Abrir no App
+                </a>
+            </td>
 
-            {% if t["concluido"] == 1 %}
+            <td>
+                {% if t["arquivo_pdf"] %}
+                <a class="btn btn-sm btn-secondary" href="/uploads/treinos/{{ t['arquivo_pdf'] }}" target="_blank">
+                    PDF
+                </a>
+                {% else %}
+                —
+                {% endif %}
+            </td>
 
-            ✔ Concluído
+            <td>
 
-            {% else %}
+                {% if t["concluido"] == 1 %}
 
-            <a href="/concluir_treino/{{ t['id'] }}">
-                Marcar concluído
-            </a>
+                <span class="text-success">
+                    ✔ Concluído
+                </span>
 
-            {% endif %}
+                {% else %}
 
-        </td>
+                <a class="btn btn-sm btn-success" href="/concluir_treino/{{ t['id'] }}">
+                    Finalizar
+                </a>
 
-    </tr>
+                {% endif %}
 
-    {% endfor %}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
 
 </table>
 

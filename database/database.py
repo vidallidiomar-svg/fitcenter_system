@@ -16,7 +16,7 @@ def criar_tabelas(conn):
     cursor = conn.cursor()
 
     # =========================
-    # TABELA USUÁRIOS
+    # USUÁRIOS DO SISTEMA
     # =========================
 
     cursor.execute("""
@@ -27,12 +27,18 @@ def criar_tabelas(conn):
         email TEXT UNIQUE,
         senha TEXT,
         perfil TEXT
-
     )
     """)
 
+    # perfis:
+    # admin
+    # suporte
+    # treinador
+    # nutricionista
+
+
     # =========================
-    # TABELA ALUNOS
+    # ALUNOS
     # =========================
 
     cursor.execute("""
@@ -47,12 +53,12 @@ def criar_tabelas(conn):
         foto TEXT,
         xp INTEGER DEFAULT 0,
         streak INTEGER DEFAULT 0
-
     )
     """)
 
+
     # =========================
-    # TABELA TREINOS
+    # TREINOS DO ALUNO
     # =========================
 
     cursor.execute("""
@@ -62,13 +68,14 @@ def criar_tabelas(conn):
         aluno_id INTEGER,
         nome TEXT,
         arquivo_pdf TEXT,
+        data_envio TEXT,
         concluido INTEGER DEFAULT 0
-
     )
     """)
 
+
     # =========================
-    # TABELA EXERCICIOS
+    # EXERCÍCIOS DO TREINO
     # =========================
 
     cursor.execute("""
@@ -76,17 +83,53 @@ def criar_tabelas(conn):
 
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         treino_id INTEGER,
+
         ordem INTEGER,
         nome TEXT,
+
         series TEXT,
         repeticoes TEXT,
-        peso TEXT,
         intervalo TEXT,
-        metodo TEXT,
+        peso TEXT,
         movimento TEXT,
-        concluido INTEGER DEFAULT 0
+        metodo TEXT,
 
+        peso_aluno TEXT,
+        observacao_aluno TEXT,
+
+        concluido INTEGER DEFAULT 0
     )
     """)
+
+
+    # =========================
+    # PLANOS ALIMENTARES
+    # =========================
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS planos_alimentares(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        arquivo TEXT,
+        data_envio TEXT
+    )
+    """)
+
+
+    # =========================
+    # AVALIAÇÕES FÍSICAS
+    # =========================
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS avaliacoes(
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        arquivo TEXT,
+        data_envio TEXT
+    )
+    """)
+
 
     conn.commit()

@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, send_from_directory
+import os
 
 # ===============================
 # BANCO DE DADOS
@@ -27,7 +28,21 @@ from routes.admin_routes import admin_bp
 # ===============================
 
 app = Flask(__name__)
+
 app.secret_key = "fitcenter_secret"
+
+
+# ===============================
+# PASTAS DE UPLOAD
+# ===============================
+
+UPLOAD_TREINOS = "uploads/treinos"
+UPLOAD_DIETAS = "uploads/dietas"
+UPLOAD_AVALIACOES = "uploads/avaliacoes"
+
+os.makedirs(UPLOAD_TREINOS, exist_ok=True)
+os.makedirs(UPLOAD_DIETAS, exist_ok=True)
+os.makedirs(UPLOAD_AVALIACOES, exist_ok=True)
 
 
 # ===============================
@@ -64,6 +79,28 @@ blueprints = [
 
 for bp in blueprints:
     app.register_blueprint(bp)
+
+
+# ===============================
+# ROTAS PARA ACESSAR ARQUIVOS
+# ===============================
+
+@app.route("/uploads/treinos/<filename>")
+def ver_treino(filename):
+
+    return send_from_directory(UPLOAD_TREINOS, filename)
+
+
+@app.route("/uploads/dietas/<filename>")
+def ver_dieta(filename):
+
+    return send_from_directory(UPLOAD_DIETAS, filename)
+
+
+@app.route("/uploads/avaliacoes/<filename>")
+def ver_avaliacao(filename):
+
+    return send_from_directory(UPLOAD_AVALIACOES, filename)
 
 
 # ===============================
