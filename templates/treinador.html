@@ -2,71 +2,33 @@
 
 {% block conteudo %}
 
-<h2 class="mb-4">Painel do Treinador</h2>
+<h2>Painel do Treinador</h2>
 
 <hr>
 
-<h3>Upload de treino (PDF ou Excel)</h3>
+<h3>Enviar treino para aluno</h3>
 
 <form method="POST" action="/upload_treino" enctype="multipart/form-data">
 
-    <input class="form-control mb-2" name="aluno_id" placeholder="ID do aluno">
+    <div class="mb-2">
+        <input class="form-control" name="aluno_id" placeholder="ID do aluno" required>
+    </div>
 
-    <input class="form-control mb-2" name="nome" placeholder="Nome do treino">
+    <div class="mb-2">
+        <input class="form-control" name="nome" placeholder="Nome do treino (ex: Treino A)" required>
+    </div>
 
-    <input class="form-control mb-2" type="file" name="arquivo">
+    <div class="mb-3">
+        <input class="form-control" type="file" name="arquivo" required>
+    </div>
 
-    <button class="btn btn-primary">Enviar treino</button>
+    <button class="btn btn-primary">
+        Enviar treino
+    </button>
 
 </form>
 
-<div class="row">
-
-    <div class="col-md-4">
-
-        <div class="card p-4">
-
-            <h5>Total de alunos</h5>
-
-            <div class="metric">
-                {{ total_alunos }}
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-        <div class="card p-4">
-
-            <h5>XP da academia</h5>
-
-            <div class="metric">
-                {{ xp_total }}
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-        <div class="card p-4">
-
-            <h5>Exercícios concluídos</h5>
-
-            <div class="metric">
-                {{ exercicios_concluidos }}
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<hr class="my-5">
+<hr>
 
 <h4>Ranking da academia</h4>
 
@@ -81,11 +43,9 @@
     {% for aluno in ranking %}
 
     <tr>
-
         <td>{{loop.index}}</td>
         <td>{{aluno["nome"]}}</td>
         <td>{{aluno["xp"]}}</td>
-
     </tr>
 
     {% endfor %}
