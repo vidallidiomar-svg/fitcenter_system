@@ -5,7 +5,7 @@ import os
 # BANCO DE DADOS
 # ===============================
 
-from database.database import conectar
+from database.database import conectar, criar_usuario_padrao
 
 # ===============================
 # ROTAS DO SISTEMA
@@ -56,6 +56,13 @@ def iniciar_banco():
 
 
 iniciar_banco()
+
+
+# ===============================
+# CRIAR USUÁRIO PADRÃO DO SISTEMA
+# ===============================
+
+criar_usuario_padrao()
 
 
 # ===============================

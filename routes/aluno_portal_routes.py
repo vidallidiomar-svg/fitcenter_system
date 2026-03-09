@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, session
+from flask import Blueprint, render_template, session, redirect
 from database.database import conectar
 
 aluno_portal_bp = Blueprint("aluno_portal", __name__)
@@ -12,7 +12,7 @@ aluno_portal_bp = Blueprint("aluno_portal", __name__)
 def portal_aluno():
 
     if "aluno_id" not in session:
-        return "Aluno não logado"
+        return redirect("/login")
 
     aluno_id = session["aluno_id"]
 
@@ -35,12 +35,10 @@ def portal_aluno():
     # ===============================
 
     cursor.execute("""
-
-    SELECT data, peso
-    FROM avaliacoes
-    WHERE aluno_id = ?
-    ORDER BY data
-
+        SELECT *
+        FROM avaliacoes
+        WHERE aluno_id = ?
+        ORDER BY id
     """,(aluno_id,))
 
     dados = cursor.fetchall()
@@ -50,8 +48,15 @@ def portal_aluno():
 
     for d in dados:
 
-        datas_grafico.append(d["data"])
-        pesos_grafico.append(d["peso"])
+        if "data" in d.keys():
+            datas_grafico.append(d["data"])
+        else:
+            datas_grafico.append("")
+
+        if "peso" in d.keys():
+            pesos_grafico.append(d["peso"])
+        else:
+            pesos_grafico.append(0)
 
     # ===============================
     # XP / NÍVEL
@@ -95,6 +100,8 @@ def portal_aluno():
         datas_grafico=datas_grafico,
         pesos_grafico=pesos_grafico
     )
+
+
 # ===============================
 # TREINO DO ALUNO
 # ===============================
@@ -111,10 +118,10 @@ def meu_treino():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT *
-    FROM treinos
-    WHERE aluno_id=?
-    ORDER BY id DESC
+        SELECT *
+        FROM treinos
+        WHERE aluno_id=?
+        ORDER BY id DESC
     """,(aluno_id,))
 
     treinos = cursor.fetchall()
@@ -143,10 +150,10 @@ def meu_plano():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT *
-    FROM planos
-    WHERE aluno_id=?
-    ORDER BY id DESC
+        SELECT *
+        FROM planos_alimentares
+        WHERE aluno_id=?
+        ORDER BY id DESC
     """,(aluno_id,))
 
     planos = cursor.fetchall()
@@ -175,10 +182,10 @@ def minha_avaliacao():
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT *
-    FROM avaliacoes
-    WHERE aluno_id=?
-    ORDER BY id DESC
+        SELECT *
+        FROM avaliacoes
+        WHERE aluno_id=?
+        ORDER BY id DESC
     """,(aluno_id,))
 
     avaliacoes = cursor.fetchall()

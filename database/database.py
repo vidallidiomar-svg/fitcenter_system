@@ -155,4 +155,30 @@ def criar_usuario_suporte_padrao(conn):
             "suporte"
         ))
 
+        def criar_usuario_padrao():
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT * FROM usuarios
+    WHERE email = 'suporte@fitcenter.com'
+    """)
+
+    usuario = cursor.fetchone()
+
+    if not usuario:
+
+        cursor.execute("""
+
+        INSERT INTO usuarios
+        (nome,email,senha,perfil)
+
+        VALUES
+        ('Suporte','suporte@fitcenter.com','123456','suporte')
+
+        """)
+
         conn.commit()
+
+    conn.close()
