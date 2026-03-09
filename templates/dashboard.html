@@ -1,234 +1,77 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block conteudo %}
 
-<h2 class="mb-4">Dashboard FITCENTER</h2>
+<div class="text-center mb-5">
 
-<div class="row g-4">
-
-<!-- TOTAL ALUNOS -->
-
-<div class="col-md-3">
-
-<div class="card p-4 text-center">
-
-<h6>Total de alunos</h6>
-
-<div class="metric">
-{{ total }}
-</div>
-
-<small class="text-secondary">alunos cadastrados</small>
-
-</div>
+    <h2 class="fw-bold">
+        Bem-vindo ao FitCenter
+    </h2>
 
 </div>
 
 
-<!-- XP ACADEMIA -->
+<div class="row justify-content-center g-4">
 
-<div class="col-md-3">
+    <!-- TREINO -->
 
-<div class="card p-4 text-center">
+    <div class="col-md-3 col-6">
 
-<h6>XP da academia</h6>
+        <a href="/meu_treino" class="app-card card-treino">
 
-<div class="metric">
-{{ xp_total }}
-</div>
+            <div class="card-icon">🏋️</div>
 
-<small class="text-secondary">experiência acumulada</small>
+            <h5>Meu Treino</h5>
 
-</div>
+        </a>
 
-</div>
+    </div>
 
 
-<!-- TREINOS -->
+    <!-- DIETA -->
 
-<div class="col-md-3">
+    <div class="col-md-3 col-6">
 
-<div class="card p-4 text-center">
+        <a href="/plano_alimentar" class="app-card card-dieta">
 
-<h6>Treinos realizados</h6>
+            <div class="card-icon">🥗</div>
 
-<div class="metric">
-{{ treinos }}
-</div>
+            <h5>Plano Alimentar</h5>
 
-<small class="text-secondary">sessões registradas</small>
+        </a>
 
-</div>
-
-</div>
+    </div>
 
 
-<!-- STATUS -->
+    <!-- AVALIAÇÃO -->
 
-<div class="col-md-3">
+    <div class="col-md-3 col-6">
 
-<div class="card p-4 text-center">
+        <a href="/avaliacao" class="app-card card-avaliacao">
 
-<h6>Status sistema</h6>
+            <div class="card-icon">📝</div>
 
-<div class="metric" style="font-size:25px;color:#39ff14">
-ONLINE
-</div>
+            <h5>Avaliação Física</h5>
 
-<small class="text-secondary">FitCenter ativo</small>
+        </a>
 
-</div>
-
-</div>
-
-</div>
+    </div>
 
 
-<hr class="my-5">
+    <!-- PERFIL -->
 
+    <div class="col-md-3 col-6">
 
-<div class="row g-4">
+        <a href="/perfil" class="app-card card-perfil">
 
-<!-- RANKING -->
+            <div class="card-icon">👤</div>
 
-<div class="col-md-6">
+            <h5>Perfil</h5>
 
-<div class="card p-4">
+        </a>
 
-<h4 class="mb-3">Ranking da academia</h4>
-
-<table class="table">
-
-<thead>
-
-<tr>
-<th>#</th>
-<th>Aluno</th>
-<th>XP</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-{% for aluno in ranking %}
-
-<tr>
-
-<td>
-
-{% if loop.index == 1 %} 🥇
-{% elif loop.index == 2 %} 🥈
-{% elif loop.index == 3 %} 🥉
-{% else %}
-{{ loop.index }}
-{% endif %}
-
-</td>
-
-<td>{{ aluno["nome"] }}</td>
-
-<td>
-
-{{ aluno["xp"] }}
-
-<div class="progress mt-1" style="height:6px">
-
-<div class="progress-bar bg-info"
-style="width: {{ aluno['xp'] / 10 }}%"></div>
+    </div>
 
 </div>
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<!-- GRÁFICO -->
-
-<div class="col-md-6">
-
-<div class="card p-4">
-
-<h4 class="mb-3">Atividade da academia</h4>
-
-<canvas id="graficoTreinos"></canvas>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CHARTJS -->
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-const ctx = document.getElementById('graficoTreinos');
-
-new Chart(ctx, {
-
-type: 'line',
-
-data: {
-
-labels: ['Seg','Ter','Qua','Qui','Sex','Sab','Dom'],
-
-datasets: [{
-
-label: 'Treinos na semana',
-
-data: [3,5,4,7,6,2,4],
-
-borderColor: '#00e6e6',
-
-backgroundColor: 'rgba(0,230,230,0.2)',
-
-tension:0.4
-
-}]
-
-},
-
-options: {
-
-plugins:{
-legend:{
-labels:{
-color:"white"
-}
-}
-},
-
-scales:{
-
-x:{
-ticks:{color:"white"}
-},
-
-y:{
-ticks:{color:"white"}
-}
-
-}
-
-}
-
-});
-
-</script>
 
 {% endblock %}

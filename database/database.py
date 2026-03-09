@@ -7,6 +7,7 @@ def conectar():
     conn.row_factory = sqlite3.Row
 
     criar_tabelas(conn)
+    criar_usuario_suporte_padrao(conn)
 
     return conn
 
@@ -27,15 +28,9 @@ def criar_tabelas(conn):
         email TEXT UNIQUE,
         senha TEXT,
         perfil TEXT
+
     )
     """)
-
-    # perfis:
-    # admin
-    # suporte
-    # treinador
-    # nutricionista
-
 
     # =========================
     # ALUNOS
@@ -53,12 +48,12 @@ def criar_tabelas(conn):
         foto TEXT,
         xp INTEGER DEFAULT 0,
         streak INTEGER DEFAULT 0
+
     )
     """)
 
-
     # =========================
-    # TREINOS DO ALUNO
+    # TREINOS
     # =========================
 
     cursor.execute("""
@@ -70,9 +65,9 @@ def criar_tabelas(conn):
         arquivo_pdf TEXT,
         data_envio TEXT,
         concluido INTEGER DEFAULT 0
+
     )
     """)
-
 
     # =========================
     # EXERCÍCIOS DO TREINO
@@ -98,9 +93,9 @@ def criar_tabelas(conn):
         observacao_aluno TEXT,
 
         concluido INTEGER DEFAULT 0
+
     )
     """)
-
 
     # =========================
     # PLANOS ALIMENTARES
@@ -113,12 +108,12 @@ def criar_tabelas(conn):
         aluno_id INTEGER,
         arquivo TEXT,
         data_envio TEXT
+
     )
     """)
 
-
     # =========================
-    # AVALIAÇÕES FÍSICAS
+    # AVALIAÇÕES
     # =========================
 
     cursor.execute("""
@@ -128,8 +123,36 @@ def criar_tabelas(conn):
         aluno_id INTEGER,
         arquivo TEXT,
         data_envio TEXT
+
     )
     """)
 
-
     conn.commit()
+
+
+def criar_usuario_suporte_padrao(conn):
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id
+        FROM usuarios
+        WHERE email = ?
+    """, ("suporte@fitcenter.com",))
+
+    usuario = cursor.fetchone()
+
+    if not usuario:
+
+        cursor.execute("""
+        INSERT INTO usuarios
+        (nome, email, senha, perfil)
+        VALUES (?, ?, ?, ?)
+        """, (
+            "Suporte FitCenter",
+            "suporte@fitcenter.com",
+            "123456",
+            "suporte"
+        ))
+
+        conn.commit()
