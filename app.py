@@ -5,7 +5,7 @@ import os
 # BANCO DE DADOS
 # ===============================
 
-from database.database import conectar, criar_usuario_padrao
+from database.database import conectar
 
 # ===============================
 # ROTAS DO SISTEMA
@@ -29,6 +29,7 @@ from routes.admin_routes import admin_bp
 
 app = Flask(__name__)
 
+# chave de sessão
 app.secret_key = "fitcenter_secret"
 
 
@@ -54,42 +55,28 @@ def iniciar_banco():
     conn = conectar()
     conn.close()
 
-
+# executa ao iniciar o sistema
 iniciar_banco()
-
-
-# ===============================
-# CRIAR USUÁRIO PADRÃO DO SISTEMA
-# ===============================
-
-criar_usuario_padrao()
 
 
 # ===============================
 # REGISTRAR BLUEPRINTS
 # ===============================
 
-blueprints = [
-
-    dashboard_bp,
-    aluno_bp,
-    aluno_portal_bp,
-    auth_bp,
-    treinador_bp,
-    treino_bp,
-    nutri_bp,
-    exercicios_bp,
-    avaliacao_bp,
-    admin_bp
-
-]
-
-for bp in blueprints:
-    app.register_blueprint(bp)
+app.register_blueprint(auth_bp)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(aluno_bp)
+app.register_blueprint(aluno_portal_bp)
+app.register_blueprint(treinador_bp)
+app.register_blueprint(treino_bp)
+app.register_blueprint(nutri_bp)
+app.register_blueprint(exercicios_bp)
+app.register_blueprint(avaliacao_bp)
+app.register_blueprint(admin_bp)
 
 
 # ===============================
-# ROTAS PARA ACESSAR ARQUIVOS
+# ROTAS PARA ARQUIVOS UPLOAD
 # ===============================
 
 @app.route("/uploads/treinos/<filename>")

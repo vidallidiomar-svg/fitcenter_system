@@ -2,62 +2,89 @@
 
 {% block conteudo %}
 
-<h2>Avaliação física</h2>
+<div class="container">
 
-<h3>Nova avaliação</h3>
+    <h2 class="mb-4">Avaliação Física</h2>
 
-<form method="POST">
+    <div class="card p-4 mb-4">
 
-Peso:<br>
-<input name="peso">
+        <h4>Nova avaliação</h4>
 
-<br><br>
+        <form method="POST">
 
-Gordura corporal:<br>
-<input name="gordura">
+            <div class="row">
 
-<br><br>
+                <div class="col-md-3">
 
-Massa muscular:<br>
-<input name="massa">
+                    <label>Peso</label>
+                    <input class="form-control" name="peso">
 
-<br><br>
+                </div>
 
-Data:<br>
-<input type="date" name="data">
+                <div class="col-md-3">
 
-<br><br>
+                    <label>Gordura corporal</label>
+                    <input class="form-control" name="gordura">
 
-<button type="submit">Salvar avaliação</button>
+                </div>
 
-</form>
+                <div class="col-md-3">
 
-<hr>
+                    <label>Massa muscular</label>
+                    <input class="form-control" name="massa">
 
-<h3>Histórico de avaliações</h3>
+                </div>
 
-<table border="1" cellpadding="10">
+                <div class="col-md-3">
 
-<tr>
-<th>Data</th>
-<th>Peso</th>
-<th>Gordura</th>
-<th>Massa</th>
-</tr>
+                    <label>Data</label>
+                    <input type="date" class="form-control" name="data">
 
-{% for a in avaliacoes %}
+                </div>
 
-<tr>
+            </div>
 
-<td>{{a[3]}}</td>
-<td>{{a[0]}}</td>
-<td>{{a[1]}}</td>
-<td>{{a[2]}}</td>
+            <br>
 
-</tr>
+            <button class="btn btn-primary">
+                Salvar avaliação
+            </button>
 
-{% endfor %}
+        </form>
 
-</table>
+    </div>
+
+
+    <div class="card p-4">
+
+        <h4>Histórico de avaliações</h4>
+
+        <table class="table table-dark">
+
+            <tr>
+                <th>Data</th>
+                <th>Peso</th>
+                <th>Gordura</th>
+                <th>Massa</th>
+            </tr>
+
+            {% for a in avaliacoes %}
+
+            <tr>
+
+                <td>{{a[3]}}</td>
+                <td>{{a[0]}}</td>
+                <td>{{a[1]}}</td>
+                <td>{{a[2]}}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
 
 {% endblock %}
