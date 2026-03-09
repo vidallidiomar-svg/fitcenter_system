@@ -2,91 +2,55 @@
 
 {% block conteudo %}
 
-<h2 class="mb-4">Portal do Aluno</h2>
+<h2 class="mb-4">Meu aplicativo</h2>
 
-<div class="row">
+<div class="row g-4">
 
     <div class="col-md-4">
 
-        <div class="card p-4 text-center">
+        <a href="/meu_treino" style="text-decoration:none">
 
-            {% if aluno.foto %}
-            <img src="/static/fotos/{{ aluno.foto }}" width="100">
-            {% endif %}
+            <div class="card text-center p-5">
 
-            <h4 class="mt-2">{{ aluno.apelido }}</h4>
+                <h3>🏋️</h3>
+                <h4>Meu Treino</h4>
 
-            <p>{{ aluno.email }}</p>
+            </div>
 
-        </div>
+        </a>
 
     </div>
 
     <div class="col-md-4">
 
-        <div class="card p-4 text-center">
+        <a href="/meu_plano" style="text-decoration:none">
 
-            <h5>XP</h5>
+            <div class="card text-center p-5">
 
-            <div class="metric">
-                {{ aluno.xp }}
+                <h3>🥗</h3>
+                <h4>Plano Alimentar</h4>
+
             </div>
 
-        </div>
+        </a>
 
     </div>
 
     <div class="col-md-4">
 
-        <div class="card p-4 text-center">
+        <a href="/minha_avaliacao" style="text-decoration:none">
 
-            <h5>Streak</h5>
+            <div class="card text-center p-5">
 
-            <div class="metric">
-                🔥 {{ streak }}
+                <h3>📊</h3>
+                <h4>Avaliação Física</h4>
+
             </div>
 
-        </div>
+        </a>
 
     </div>
 
 </div>
-
-<hr class="my-5">
-
-<h4>Progresso</h4>
-
-<canvas id="graficoPeso"></canvas>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-
-    const datas = {{ datas_grafico| tojson }};
-    const pesos = {{ pesos_grafico| tojson }};
-
-    new Chart(document.getElementById("graficoPeso"), {
-
-        type: "line",
-
-        data: {
-            labels: datas,
-
-            datasets: [{
-                label: "Peso corporal",
-                data: pesos,
-                borderWidth: 3
-            }]
-        }
-
-    });
-
-</script>
-
-<hr class="my-5">
-
-<a href="/treino/{{ aluno.id }}" class="btn btn-primary">Ver treino</a>
-
-<a href="/ranking" class="btn btn-dark">Ranking</a>
 
 {% endblock %}

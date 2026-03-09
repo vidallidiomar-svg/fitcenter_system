@@ -95,3 +95,97 @@ def portal_aluno():
         datas_grafico=datas_grafico,
         pesos_grafico=pesos_grafico
     )
+# ===============================
+# TREINO DO ALUNO
+# ===============================
+
+@aluno_portal_bp.route("/meu_treino")
+def meu_treino():
+
+    if "aluno_id" not in session:
+        return redirect("/login")
+
+    aluno_id = session["aluno_id"]
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM treinos
+    WHERE aluno_id=?
+    ORDER BY id DESC
+    """,(aluno_id,))
+
+    treinos = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "meu_treino.html",
+        treinos=treinos
+    )
+
+
+# ===============================
+# PLANO ALIMENTAR
+# ===============================
+
+@aluno_portal_bp.route("/meu_plano")
+def meu_plano():
+
+    if "aluno_id" not in session:
+        return redirect("/login")
+
+    aluno_id = session["aluno_id"]
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM planos
+    WHERE aluno_id=?
+    ORDER BY id DESC
+    """,(aluno_id,))
+
+    planos = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "meu_plano.html",
+        planos=planos
+    )
+
+
+# ===============================
+# AVALIAÇÃO FÍSICA
+# ===============================
+
+@aluno_portal_bp.route("/minha_avaliacao")
+def minha_avaliacao():
+
+    if "aluno_id" not in session:
+        return redirect("/login")
+
+    aluno_id = session["aluno_id"]
+
+    conn = conectar()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT *
+    FROM avaliacoes
+    WHERE aluno_id=?
+    ORDER BY id DESC
+    """,(aluno_id,))
+
+    avaliacoes = cursor.fetchall()
+
+    conn.close()
+
+    return render_template(
+        "minha_avaliacao.html",
+        avaliacoes=avaliacoes
+    )

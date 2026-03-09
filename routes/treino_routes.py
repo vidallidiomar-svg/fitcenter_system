@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect
 from database.database import conectar
+import pandas as pd
 
 treino_bp = Blueprint("treino", __name__)
 

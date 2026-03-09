@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Editar usuário</h2>
+
+<div class="card p-4">
+
+    <form method="POST" action="/salvar_usuario/{{usuario.id}}">
+
+        <input class="form-control mb-3" name="nome" value="{{usuario.nome}}">
+
+        <input class="form-control mb-3" name="email" value="{{usuario.email}}">
+
+        <select class="form-control mb-3" name="perfil">
+
+            <option {% if usuario.perfil=="aluno" %}selected{% endif %}>aluno</option>
+            <option {% if usuario.perfil=="treinador" %}selected{% endif %}>treinador</option>
+            <option {% if usuario.perfil=="nutricionista" %}selected{% endif %}>nutricionista</option>
+            <option {% if usuario.perfil=="admin" %}selected{% endif %}>admin</option>
+            <option {% if usuario.perfil=="suporte" %}selected{% endif %}>suporte</option>
+
+        </select>
+
+        <button class="btn btn-primary">
+            Salvar alterações
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

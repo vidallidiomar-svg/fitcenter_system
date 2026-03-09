@@ -55,20 +55,20 @@ def criar_tabelas(conn):
     # TABELA TREINOS
     # =========================
 
-   cursor.execute("""
-CREATE TABLE IF NOT EXISTS treinos(
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS treinos(
 
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    aluno_id INTEGER,
-    nome TEXT,
-    arquivo_pdf TEXT,
-    concluido INTEGER DEFAULT 0
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        aluno_id INTEGER,
+        nome TEXT,
+        arquivo_pdf TEXT,
+        concluido INTEGER DEFAULT 0
 
-)
-""")
+    )
+    """)
 
     # =========================
-    # EXERCICIOS
+    # TABELA EXERCICIOS
     # =========================
 
     cursor.execute("""

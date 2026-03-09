@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<h2>Meu treino</h2>
+
+<table class="table">
+
+    <tr>
+        <th>Treino</th>
+        <th>Arquivo</th>
+    </tr>
+
+    {% for t in treinos %}
+
+    <tr>
+
+        <td>{{t.nome}}</td>
+
+        <td>
+
+            <a href="/uploads/treinos/{{t.arquivo_pdf}}" target="_blank">
+
+                Abrir treino
+
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}
