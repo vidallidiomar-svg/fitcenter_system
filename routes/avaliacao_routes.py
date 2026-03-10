@@ -1,20 +1,17 @@
-from flask import Blueprint, render_template, request, redirect
+from flask import Blueprint, render_template, request, redirect, session
 from database.database import conectar
 
 avaliacao_bp = Blueprint("avaliacao", __name__)
 
 
-# ===============================
-# AVALIAÇÃO FÍSICA
-# ===============================
+@avaliacao_bp.route("/avaliacao", methods=["GET","POST"])
+def avaliacao():
 
-@avaliacao_bp.route("/avaliacao/<int:aluno_id>", methods=["GET","POST"])
-def avaliacao(aluno_id):
+    if "usuario_id" not in session:
+        return redirect("/login")
 
     conn = conectar()
     cursor = conn.cursor()
-
-    # SALVAR NOVA AVALIAÇÃO
 
     if request.method == "POST":
 
@@ -24,28 +21,18 @@ def avaliacao(aluno_id):
         data = request.form["data"]
 
         cursor.execute("""
-
         INSERT INTO avaliacoes
-        (aluno_id, peso, gordura, massa, data)
-
-        VALUES (?, ?, ?, ?, ?)
-
-        """, (aluno_id, peso, gordura, massa, data))
+        (peso,gordura,massa,data)
+        VALUES (?,?,?,?)
+        """,(peso,gordura,massa,data))
 
         conn.commit()
 
-        return redirect(f"/avaliacao/{aluno_id}")
-
-    # BUSCAR HISTÓRICO
-
     cursor.execute("""
-
-    SELECT peso, gordura, massa, data
+    SELECT peso,gordura,massa,data
     FROM avaliacoes
-    WHERE aluno_id = ?
     ORDER BY data DESC
-
-    """, (aluno_id,))
+    """)
 
     avaliacoes = cursor.fetchall()
 

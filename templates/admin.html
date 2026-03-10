@@ -4,75 +4,69 @@
 
 <h2>Painel Administrativo</h2>
 
-<hr>
+<div class="card p-4 mb-4">
 
-<h4>Criar novo usuário</h4>
+    <h4>Novo usuário</h4>
 
-<form method="POST" action="/criar_usuario">
+    <form method="POST">
 
-    <input name="nome" placeholder="Nome">
+        <input class="form-control mb-2" name="nome" placeholder="Nome">
 
-    <input name="email" placeholder="Email">
+        <input class="form-control mb-2" name="email" placeholder="Email">
 
-    <input name="senha" placeholder="Senha">
+        <input class="form-control mb-2" name="senha" placeholder="Senha">
 
-    <select name="perfil">
+        <select class="form-control mb-2" name="perfil">
 
-        <option value="aluno">Aluno</option>
-        <option value="treinador">Treinador</option>
-        <option value="nutricionista">Nutricionista</option>
-        <option value="admin">Admin</option>
+            <option value="admin">Admin</option>
+            <option value="suporte">Suporte</option>
+            <option value="treinador">Treinador</option>
+            <option value="nutricionista">Nutricionista</option>
+            <option value="aluno">Aluno</option>
 
-    </select>
+        </select>
 
-    <button>Criar usuário</button>
+        <button class="btn btn-primary">Cadastrar</button>
 
-</form>
+    </form>
 
-<hr>
+</div>
 
-<h4>Usuários cadastrados</h4>
+<div class="card p-4">
 
-<table border="1" cellpadding="10">
+    <h4>Usuários cadastrados</h4>
 
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Perfil</th>
-        <th>Ações</th>
-    </tr>
+    <table class="table table-dark">
 
-    {% for u in usuarios %}
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Perfil</th>
+            <th></th>
+        </tr>
 
-    <tr>
+        {% for u in usuarios %}
 
-        <td>{{u["id"]}}</td>
-        <td>{{u["nome"]}}</td>
-        <td>{{u["email"]}}</td>
-        <td>{{u["perfil"]}}</td>
+        <tr>
 
-        <td>
+            <td>{{u["nome"]}}</td>
+            <td>{{u["email"]}}</td>
+            <td>{{u["perfil"]}}</td>
 
-            <a href="/resetar_senha/{{u.id}}">
-                Resetar senha
-            </a>
+            <td>
 
-            |
-            <a href="/editar_usuario/{{u.id}}">Editar</a>
+                <a class="btn btn-danger btn-sm" href="/excluir_usuario/{{u['id']}}">
+                    Excluir
+                </a>
 
-            |
+            </td>
 
-            <a href="/excluir_usuario/{{u.id}}">
-                Excluir
-            </a>
+        </tr>
 
-        </td>
+        {% endfor %}
 
-    </tr>
+    </table>
 
-    {% endfor %}
-
-</table>
+</div>
 
 {% endblock %}

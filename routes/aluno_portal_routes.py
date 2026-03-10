@@ -4,10 +4,6 @@ from database.database import conectar
 aluno_portal_bp = Blueprint("aluno_portal", __name__)
 
 
-# ===============================
-# PORTAL DO ALUNO
-# ===============================
-
 @aluno_portal_bp.route("/portal_aluno")
 def portal_aluno():
 
@@ -19,20 +15,12 @@ def portal_aluno():
     conn = conectar()
     cursor = conn.cursor()
 
-    # ===============================
-    # DADOS DO ALUNO
-    # ===============================
-
     cursor.execute(
         "SELECT * FROM alunos WHERE id=?",
         (aluno_id,)
     )
 
     aluno = cursor.fetchone()
-
-    # ===============================
-    # AVALIAÇÕES (para gráfico)
-    # ===============================
 
     cursor.execute("""
         SELECT *
@@ -48,45 +36,15 @@ def portal_aluno():
 
     for d in dados:
 
-        if "data" in d.keys():
-            datas_grafico.append(d["data"])
-        else:
-            datas_grafico.append("")
-
-        if "peso" in d.keys():
-            pesos_grafico.append(d["peso"])
-        else:
-            pesos_grafico.append(0)
-
-    # ===============================
-    # XP / NÍVEL
-    # ===============================
+        datas_grafico.append(d["data"])
+        pesos_grafico.append(d["peso"])
 
     xp = aluno["xp"]
 
     nivel = xp // 100
     progresso = xp % 100
 
-    # ===============================
-    # STREAK
-    # ===============================
-
-    streak = aluno["streak"] if "streak" in aluno.keys() else 0
-
-    # ===============================
-    # CONQUISTAS
-    # ===============================
-
-    conquistas = []
-
-    if xp >= 100:
-        conquistas.append("Primeiro nível alcançado")
-
-    if xp >= 500:
-        conquistas.append("Atleta dedicado")
-
-    if xp >= 1000:
-        conquistas.append("Monstro da academia")
+    streak = aluno["streak"]
 
     conn.close()
 
@@ -96,103 +54,6 @@ def portal_aluno():
         progresso=progresso,
         nivel=nivel,
         streak=streak,
-        conquistas=conquistas,
         datas_grafico=datas_grafico,
         pesos_grafico=pesos_grafico
-    )
-
-
-# ===============================
-# TREINO DO ALUNO
-# ===============================
-
-@aluno_portal_bp.route("/meu_treino")
-def meu_treino():
-
-    if "aluno_id" not in session:
-        return redirect("/login")
-
-    aluno_id = session["aluno_id"]
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT *
-        FROM treinos
-        WHERE aluno_id=?
-        ORDER BY id DESC
-    """,(aluno_id,))
-
-    treinos = cursor.fetchall()
-
-    conn.close()
-
-    return render_template(
-        "meu_treino.html",
-        treinos=treinos
-    )
-
-
-# ===============================
-# PLANO ALIMENTAR
-# ===============================
-
-@aluno_portal_bp.route("/meu_plano")
-def meu_plano():
-
-    if "aluno_id" not in session:
-        return redirect("/login")
-
-    aluno_id = session["aluno_id"]
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT *
-        FROM planos_alimentares
-        WHERE aluno_id=?
-        ORDER BY id DESC
-    """,(aluno_id,))
-
-    planos = cursor.fetchall()
-
-    conn.close()
-
-    return render_template(
-        "meu_plano.html",
-        planos=planos
-    )
-
-
-# ===============================
-# AVALIAÇÃO FÍSICA
-# ===============================
-
-@aluno_portal_bp.route("/minha_avaliacao")
-def minha_avaliacao():
-
-    if "aluno_id" not in session:
-        return redirect("/login")
-
-    aluno_id = session["aluno_id"]
-
-    conn = conectar()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT *
-        FROM avaliacoes
-        WHERE aluno_id=?
-        ORDER BY id DESC
-    """,(aluno_id,))
-
-    avaliacoes = cursor.fetchall()
-
-    conn.close()
-
-    return render_template(
-        "minha_avaliacao.html",
-        avaliacoes=avaliacoes
     )
